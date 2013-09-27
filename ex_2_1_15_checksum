@@ -6,9 +6,11 @@ The di are the decimal digits of the account number and f(d) is the sum of the d
 public class ex_2_1_15_checksum
 
 {
+	static boolean IsOk;	
 	
 	public static void main(String[]args) //void return type 	
 		{
+
 			String Input = String.valueOf(args[0]);
 			String[] InputArray = new String[11];
 			
@@ -18,14 +20,20 @@ public class ex_2_1_15_checksum
 			
 			InputArray = Compute(InputArray);
 			
-			for (int i=0; i<11; i++) {
-				StdOut.print(InputArray[i]);
+			if (IsOk==true) {
+				StdOut.print("CheckSum is correct. Checksum value:\n");
+				for (int i=0; i<11; i++) {
+					StdOut.print(InputArray[i]);
+				}
+			}	
+			else {
+				StdOut.print("CheckSum is incorrect.");		
 			}
 			StdOut.print("\n");	
 			
 		}
 		
-	public static String[], boolean Compute(String[] InputArray) 
+	public static String[] Compute(String[] InputArray) 
 		{
 			for (int i=1; i<10; i+=2) {
 				InputArray[i]=Sum(Integer.parseInt(InputArray[i]));	
@@ -49,7 +57,7 @@ public class ex_2_1_15_checksum
 			else {
 				IsOk = false;
 			}
-			return InputArray, IsOk;
+			return InputArray;
 		}
 		
 	public static String Sum(int d) 
