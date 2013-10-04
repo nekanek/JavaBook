@@ -1,0 +1,75 @@
+/* 21. Write a method multiply() that takes two square matrices of the same dimension as arguments and produces their product (another square matrix of that same dimension). Extra credit: Make your program work whenever the number of rows in the first matrix is equal to the number of columns in the second matrix.
+*/
+
+public class ex_2_1_21_multiply
+
+{
+	static boolean IsOk;	
+
+	public static void main(String[]args) //void return type 	
+		{
+
+			String Input = String.valueOf(args[0]);
+			String[] InputArray = new String[11];
+
+			for (int i=0; i<10; i++) {
+				InputArray[i]=Input.substring(i, i+1);
+			}
+
+			InputArray = Compute(InputArray);
+
+			if (IsOk==true) {
+				StdOut.print("CheckSum is correct. Checksum value:\n");
+				for (int i=0; i<11; i++) {
+					StdOut.print(InputArray[i]);
+				}
+			}	
+			else {
+				StdOut.print("CheckSum is incorrect.");		
+			}
+			StdOut.print("\n");	
+
+		}
+
+	public static String[] Compute(String[] InputArray) 
+		{
+			for (int i=1; i<10; i+=2) {
+				InputArray[i]=Sum(Integer.parseInt(InputArray[i]));	
+			}
+			int CheckSum = 0;
+			for (int i=0; i<10; i++) {
+				CheckSum += Integer.parseInt(InputArray[i]);
+			}
+
+			if (CheckSum%10==0) {
+
+				while (CheckSum>9) {
+					int CheckSum1 = Integer.parseInt((String.valueOf(CheckSum)).substring(0, 1));
+					int CheckSum2 = Integer.parseInt((String.valueOf(CheckSum)).substring(1, 2));
+					CheckSum=CheckSum1+CheckSum2;				
+				}		
+
+				InputArray[10]=String.valueOf(CheckSum);
+				IsOk = true;				
+			}
+			else {
+				IsOk = false;
+			}
+			return InputArray;
+		}
+
+	public static String Sum(int d) 
+		{
+			int d2=2*d;
+			if (d2<10) {
+				return String.valueOf(d2);
+			}
+			else {
+				int d21 = Integer.parseInt((String.valueOf(d2)).substring(0, 1));
+				int d22 = Integer.parseInt((String.valueOf(d2)).substring(1, 2));
+				d2=d21+d22;
+				return String.valueOf(d2);
+			}
+		}
+
+}
