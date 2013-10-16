@@ -4,8 +4,6 @@
 public class ex_2_1_21_multiply
 
 {
-
-
 	public static void main(String[]args) //void return type 	
 	{
 		//read dimensions
@@ -14,14 +12,14 @@ public class ex_2_1_21_multiply
 		int L = StdIn.readInt();
 		int K = StdIn.readInt();
 	
-		if (N == K) 	{
+		if (M == L) 	{
 
 			double[][] Matrix0 = ReadMatrix(N, M);
 			double[][] Matrix1 = ReadMatrix(L, K);
-			double[][] Matrix2 = computeDotProduct (Matrix0, Matrix1);
-			Print(Matrix0);
-			Print(Matrix1);
-			Print(Matrix2);
+			double[][] Matrix2 = ComputeDotProduct (N, M, K, Matrix0, Matrix1);
+			PrintArray("Myltyplying matrix A = /n", N, M, Matrix0);
+			PrintArray("/nby maatrix B = /n", L, K, Matrix1);
+			PrintArray("./nThe dot product is C = /n", N, K, Matrix2);
 		}	
 		
 		else {
@@ -33,107 +31,36 @@ public class ex_2_1_21_multiply
 	//read matrix
 	public static double[][] ReadMatrix(int A, int B)
 	{
+		double[][] Input = new double[A][B];
 		for (int a=0; a<A; a++) {
 		for (int b=0; b<B; b++) {	
-			Input[a][b] = StdIn.readInt();
-		}}
-		return Input[][];
+			Input[a][b] = StdIn.readInt(); 		}}
+		return Input;
 	}
 	
 	//compute dot product
-	public static double[][] ComputeDotProduct(int N, int L, int K, int double[][] A, double[][] B,)
+	public static double[][] ComputeDotProduct(int N, int M, int K, double[][] A, double[][] B)
 	{
-		
-		for (int i=0; i<N; i++) 
-		for (int j=0; j<K; j++)
-		for (int c=0; c<M; c++)
-			p[i][j] += (a[i][c] * b[c][j]);
+		double[][] Product = new double[N][K];
+		for (int i=0; i<N; i++) {
+		for (int j=0; j<K; j++)	{
+		for (int p=0; p<M; p++)	{
+			Product[i][j] += (A[i][p] * B[p][j]); }}}
+		return Product;
 	}	
 			
 			
-printarray {
-
-	System.out.println("Matrix A =");
-	for (int i=0; i<N; i++) {
-	for (int j=0; j<M; j++)
-		System.out.print(a[i][j] + " ");
-
-	System.out.println();}
-	System.out.println();
-	
-}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			String Input = String.valueOf(args[0]);
-			String[] InputArray = new String[11];
-
-			for (int i=0; i<10; i++) {
-				InputArray[i]=Input.substring(i, i+1);
+	//print array
+	public static void PrintArray(String ArrayName, int V, int W, double[][] A)
+	{
+		double[][] a = new double[V][W];
+		System.out.println(ArrayName);
+		for (int i=0; i<V; i++) {
+			for (int j=0; j<W; j++)	{
+				System.out.print(a[i][j] + " "); 
 			}
-
-			InputArray = Compute(InputArray);
-
-			if (IsOk==true) {
-				StdOut.print("CheckSum is correct. Checksum value:\n");
-				for (int i=0; i<11; i++) {
-					StdOut.print(InputArray[i]);
-				}
-			}	
-			else {
-				StdOut.print("CheckSum is incorrect.");		
-			}
-			StdOut.print("\n");	
-
+			System.out.println();
 		}
-
-	public static String[] Compute(String[] InputArray) 
-		{
-			for (int i=1; i<10; i+=2) {
-				InputArray[i]=Sum(Integer.parseInt(InputArray[i]));	
-			}
-			int CheckSum = 0;
-			for (int i=0; i<10; i++) {
-				CheckSum += Integer.parseInt(InputArray[i]);
-			}
-
-			if (CheckSum%10==0) {
-
-				while (CheckSum>9) {
-					int CheckSum1 = Integer.parseInt((String.valueOf(CheckSum)).substring(0, 1));
-					int CheckSum2 = Integer.parseInt((String.valueOf(CheckSum)).substring(1, 2));
-					CheckSum=CheckSum1+CheckSum2;				
-				}		
-
-				InputArray[10]=String.valueOf(CheckSum);
-				IsOk = true;				
-			}
-			else {
-				IsOk = false;
-			}
-			return InputArray;
-		}
-
-	public static String Sum(int d) 
-		{
-			int d2=2*d;
-			if (d2<10) {
-				return String.valueOf(d2);
-			}
-			else {
-				int d21 = Integer.parseInt((String.valueOf(d2)).substring(0, 1));
-				int d22 = Integer.parseInt((String.valueOf(d2)).substring(1, 2));
-				d2=d21+d22;
-				return String.valueOf(d2);
-			}
-		}
-
+		System.out.println();
+	}
 }
