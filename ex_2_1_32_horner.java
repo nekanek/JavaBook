@@ -3,39 +3,24 @@
 p0 + p1x1 + p2x2 + ... + pN-2xN-2 + pN-1xN-1 
 Use Horner's method, an efficient way to perform the computations that is suggested by the following parenthesization:
 p0 + x (p1 + x( p2 + ... + x(pN-2 + xpN-1))...)
-Write a test client with a static method exp() that uses Horner.eval() to compute an approximation to e^x, using the first N terms of the Taylor series expansion e^x = 1 + x + x ^2/2! + x ^3/3! + .... Include code to check your answer against that computed by Math.exp().
- В задаче 32 тебе предлагается использовать реализацию схемы горнера, и сравнить её результаты с эталонной экспонентой. Было бы круто, если бы ты сама запилила имплементация схемы Горнера, но это необязательно, т.к. сорцы класса тебе уже предоставлены.
- 
-
- 
+Write a test client with a static method exp() that uses Horner.eval() to compute an approximation to e^x, using the first N terms of the Taylor series expansion e^x = 1 + x + x ^2/2! + x ^3/3! + .... Include code to check your answer against that computed by Math.exp(). 
 */
 
 public class ex_2_1_32_horner
 
 {
-        public static void main(String[]args) //void return type         
+        public static void main(String[]args)        
         {
-                //read dimensions
+				//test client
                 int N = StdIn.readInt();
-                int M = StdIn.readInt();
-                int L = StdIn.readInt();
-                int K = StdIn.readInt();
-        
-                if (M == L)         {
-						
-						//double[][] Matrix0 = new double[N][M];
 						
                         double[][] Matrix0 = ReadMatrix(N, M);
-                        double[][] Matrix1 = ReadMatrix(L, K);
+
                         double[][] Matrix2 = ComputeDotProduct (N, M, K, Matrix0, Matrix1);
-                        PrintArray("Multiplying matrix A =", N, M, Matrix0);
-                        PrintArray("by matrix B =", L, K, Matrix1);
                         PrintArray("The dot product is C =", N, K, Matrix2);
-                }        
-                
-                else {
+
                         System.out.println("Error: matrices have incompatible dimensions.");
-                }
+
 
         }
         
