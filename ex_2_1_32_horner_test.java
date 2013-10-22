@@ -25,13 +25,7 @@ public class ex_2_1_32_horner_test
         //read matrix
         public static double exp(int x, int N)
         {
-                double[] p = new double[N];
-				p[0]=1;
-				for (int i = 1, i<N, i++) {
-					p[i]=1/i;
-					for (int j=i-1, j>0, j--) {
-						p[i]=p[i]/j;
-				}}
+                
                 HornerExp = Horner.eval(x, p[])
                 return HornerExp;
         }
