@@ -24,25 +24,27 @@ public class ex_2_1_32_horner
 
         }
         
-        //read matrix
+        
         public static double eval(double x, double[] p)
         {
-                
-                for (int a=0; a<A; a++) {
-                       
-                        Input[a][b] = StdIn.readDouble(); }
-                return Input;
+			HornerExp = p[N];
+			for (int i=N-1; i<=0; i--) {
+				HornerExp = HornerExp*x+p[i]; }
+			;
+			return HornerExp;
         }
         
-        //compute dot product
-        public static double[][] ComputeDotProduct(int N, int M, int K, double[][] A, double[][] B)
+        //compute coefficients of polynomial 4 exponent
+        public static double[] CoeffExp(int x, int N)
         {
-                double[][] Product = new double[N][K];
-                for (int i=0; i<N; i++) {
-                for (int j=0; j<K; j++)        {
-                for (int p=0; p<M; p++)        {
-                        Product[i][j] += (A[i][p] * B[p][j]); }}}
-                return Product;
+			double[] p = new double[N];
+				p[0]=1;
+				for (int i = 1, i<N, i++) {
+					p[i]=1/i;
+					for (int j=i-1, j>0, j--) {
+						p[i]=p[i]/j;
+				}}
+            return p;
         }        
                         
                         
