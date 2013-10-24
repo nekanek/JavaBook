@@ -11,53 +11,23 @@ public class ex_2_1_32_horner
 {
         public static void main(String[]args)        
         {
-				//test client
-                int N = StdIn.readInt();
-						
-                        double[][] Matrix0 = ReadMatrix(N, M);
-
-                        double[][] Matrix2 = ComputeDotProduct (N, M, K, Matrix0, Matrix1);
-                        PrintArray("The dot product is C =", N, K, Matrix2);
-
-                        System.out.println("Error: matrices have incompatible dimensions.");
-
-
+			//test client
+			int N = StdIn.readInt();
+			double x = StdIn.readDouble();
+			double [] p= new double[N];
+			for (int i=0; i<N; i++) {
+				p[i]= StdIn.readDouble();}
+			double Horner=eval(x, p);
+			System.out.println("According to Horner's method the polinomial value is " + Horner + ".");
         }
-        
         
         public static double eval(double x, double[] p)
         {
-			HornerExp = p[N];
-			for (int i=N-1; i<=0; i--) {
-				HornerExp = HornerExp*x+p[i]; }
+			double Horner = p[p.length-1];
+			for (int i=(p.length-2); i<=0; i--) {
+				Horner = Horner*x+p[i]; }
 			;
-			return HornerExp;
+			return Horner;
         }
-        
-        //compute coefficients of polynomial 4 exponent
-        public static double[] CoeffExp(int x, int N)
-        {
-			double[] p = new double[N];
-				p[0]=1;
-				for (int i = 1, i<N, i++) {
-					p[i]=1/i;
-					for (int j=i-1, j>0, j--) {
-						p[i]=p[i]/j;
-				}}
-            return p;
-        }        
-                        
-                        
-        //print array
-        public static void PrintArray(String ArrayName, int V, int W, double[][] A)
-        {
-                System.out.println(ArrayName);
-                for (int i=0; i<V; i++) {
-                        for (int j=0; j<W; j++)        {
-                                System.out.print(A[i][j] + " ");
-                        }
-                        System.out.println();
-                }
-                System.out.println();
-        }
+
 }
