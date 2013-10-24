@@ -14,21 +14,19 @@ public class ex_2_1_34_binomial
         public static void main(String[]args)        
         {
 				//test client
-                int x = StdIn.readInt();
+                int k = StdIn.readInt();
 				int N = StdIn.readInt();
-				Double HornerExp = Exp(x, N);
-				Double MathExp = Math.exp(x);
+				double p = StdIn.readDouble();
+				double binomial = binomial(k, N, p);
 				
-                System.out.println("e^"+x+"According to Math library equals "+ MathExp+", accroding to Horner's method it equals "+HornerExp+".");
-
-
+                System.out.println("Probability of obtaining exactly "+ k +" heads in "+N+" biased coin flips equals "+binomial+" .");
         }
         
-        //read matrix
         public static double binomial(int k, int N, double p)
         {
-			binomial = Math.ln((factorial(N)*Math.pow(p,k)*Math.pow(1-p,N-k))/(factorial(k)*factorial(N-k)));
-			return Math.pow(Math.Exp,binomial);
+			double binomial = Math.log(factorial(N)*Math.pow(p,k)*Math.pow(1-p,N-k))/Math.log(factorial(k)*factorial(N-k));
+			//binomial = Math.log(binomial);
+			return Math.pow(Math.E,binomial);
         }
         
         //compute dot product
@@ -36,21 +34,8 @@ public class ex_2_1_34_binomial
         {
 			int factorial = 1;
 			for (int i=N; i>1; i--) {
-				factorial *= i;
-                return factorial;
+				factorial *= i;}
+            return factorial;
         }        
-                        
-                        
-        //print array
-        public static void PrintArray(String ArrayName, int V, int W, double[][] A)
-        {
-                System.out.println(ArrayName);
-                for (int i=0; i<V; i++) {
-                        for (int j=0; j<W; j++)        {
-                                System.out.print(A[i][j] + " ");
-                        }
-                        System.out.println();
-                }
-                System.out.println();
-        }
+
 }
