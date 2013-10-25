@@ -5,25 +5,55 @@
 public class ex_2_2_7_scale
 
 {
-        public static void main(String[]args)        
+      public static void main(String[]args)        
         {
 			//test client
-			int N = StdIn.readInt();
-			double x = StdIn.readDouble();
-			double [] p= new double[N];
-			for (int i=0; i<N; i++) {
-				p[i]= StdIn.readDouble();}
-			double Horner=eval(x, p);
-			System.out.println("According to Horner's method the polinomial value is " + Horner + ".");
+			double min = StdIn.readDouble();
+			double max = StdIn.readDouble();
+			
+			if (min < max) {
+			
+				int N = StdIn.readInt();
+				double [] a = new double[N];
+				
+				for (int i=0; i<N; i++) 
+					a[i]= StdIn.readDouble();
+					
+				double ScaledArray = ScaleArray(a);
+				
+				PrintArray("Given Array: ", a);
+				PrintArray("Scaled Array: ", ScaledArray);		
+			}
+			else
+				System.out.println("Min value is bigger or equals Max value.");
         }
         
-        public static double eval(double x, double[] p)
+    public static double ScaleArray(double[] a)
         {
-			double Horner = p[p.length-1];
-			for (int i=(p.length-2); i<=0; i--) {
-				Horner = Horner*x+p[i]; }
+			double Horner = a[a.length-1];
+			for (int i=(a.length-2); i<=0; i--) {
+				Horner = Horner*x+a[i]; }
 			;
 			return Horner;
         }
-
+		
+	public static void PrintArray2D(String ArrayName, int Rows, int Columns, double[][] Array)
+		{
+			System.out.println(ArrayName);
+			for (int i=0; i<Rows; i++) {
+				for (int j=0; j<Columns; j++)	{
+					System.out.print(Array[i][j] + " "); 
+				}
+				System.out.println();
+			}
+			System.out.println();
+		}
+		
+	public static void PrintArray(String ArrayName, double[] Array)
+		{
+			System.out.println(ArrayName);
+			for (int i=0; i<(Array.length-1); i++) 
+				System.out.print(Array[i] + " "); 
+			System.out.println();
+		}		
 }
