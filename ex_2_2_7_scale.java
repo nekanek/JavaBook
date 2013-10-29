@@ -28,13 +28,13 @@ public class ex_2_2_7_scale
 				System.out.println("Min value is bigger or equals Max value.");
         }
         
-    public static double ScaleArray(double[] a)
-        {
-			double Horner = a[a.length-1];
-			for (int i=(a.length-2); i<=0; i--) {
-				Horner = Horner*x+a[i]; }
-			;
-			return Horner;
+
+	public static double[] Scale(ymin, ymax, double[] a)
+		{
+			double aMax = StdStat.max(a);
+			double aMin = StdStat.min(a);
+			for (int i = 0; i<N; i++) aScaled[i] = ymin + (a[i] -  aMin)*(ymax - ymin) \(aMax- aMin);
+			return aScaled;
         }
 		
 	public static void PrintArray2D(String ArrayName, int Rows, int Columns, double[][] Array)
