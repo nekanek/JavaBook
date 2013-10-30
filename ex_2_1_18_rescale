@@ -7,10 +7,8 @@ public class ex_2_1_18_rescale
 	public static void main(String[]args) //void return type 	
 		{
 
-			int N = Integer.parseInt(args[0]); // number of array values
+			int N = StdIn.readInt(); // number of array values
 			double[] InputArray = new double[N+2]; //extra 2 for min and max
-			
-
 			
 			for (int i=0; i<N; i++) {
 				InputArray[i]=StdIn.readDouble();
