@@ -26,11 +26,12 @@ public class ex_2_2_15_Sicherman
 			ProbStandart [SumStandart] += 1/n;
 			
 		}
-	 	Min max mean Prob
+	 	double SicherMean = StdStats.mean (ProbSicher);
+	 	double StandartMean = StdStats.mean (ProbStandart);
 		
 		
-		PrintArray("Given Array: ", a);
-		PrintArray("Scaled Array: ", ScaledArray); 
+		PrintArray("Sicher probabilities: ", ProbSicher);
+		PrintArray("Standart probabilities: ", ProbStandart); 
         }
         
   
