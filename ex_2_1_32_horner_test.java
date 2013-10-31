@@ -11,25 +11,25 @@ public class ex_2_1_32_horner_ExpTest
 {
         public static void main(String[]args)        
         {
-				//test client
-                int x = StdIn.readInt();
-				int N = StdIn.readInt();
-				
-				Double HornerExp = exp(x, N);
-				Double MathExp = Math.exp(x);
-				
-                System.out.println("e^"+x+"According to Math library equals "+ MathExp+", accroding to Horner's method it equals "+HornerExp+".");
+			//test client
+
+			int N = StdIn.readInt();
+			double x = StdIn.readDouble();				
+			Double HornerExp = exp(x, N);
+			Double MathExp = Math.exp(x);
+			
+			System.out.println("e^"+x+"according to Math library equals "+ MathExp+", accroding to Horner's method it equals "+HornerExp+".");
         }
 
-        public static double exp(int x, int N)
+        public static double exp(double x, int N)
         {
-                double [] p = CoeffExp(x, N);
-				double HornerExp = ex_2_1_32_horner.eval(x, p);
-                return HornerExp;
+			double [] p = CoeffExp(N);
+			double HornerExp = ex_2_1_32_horner.eval(x, p);
+			return HornerExp;
         }
         
         //compute coefficients of polynomial 4 exponent
-        public static double[] CoeffExp(int x, int N)
+        public static double[] CoeffExp(int N)
         {
 			double[] p = new double[N];
 			p[0]=1;
