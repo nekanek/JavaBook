@@ -24,9 +24,10 @@ public class ex_2_1_32_horner
         public static double eval(double x, double[] p)
         {
 			double Horner = p[p.length-1];
-			for (int i=(p.length-2); i<=0; i--) {
-				Horner = Horner*x+p[i]; }
-			;
+
+			for (int i=(p.length-2); i>=0; i--) {
+				Horner *= x;
+				Horner +=p[i]; }
 			return Horner;
         }
 
