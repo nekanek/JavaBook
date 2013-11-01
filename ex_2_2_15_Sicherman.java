@@ -13,33 +13,34 @@ public class ex_2_2_15_Sicherman
 		int N = 1000;
 		int SumSicher;
 		int SumStandart;
-		double [] SicherDice1 = {1,3,4,5,6,8};
-		double [] SicherDice2 = {1,2,2,3,3,4};
+
+		int [] SicherDice1 = {1,3,4,5,6,8};
+		int [] SicherDice2 = {1,2,2,3,3,4};
 		double [] ProbSicher = new double[13];
 		double [] ProbStandart = new double[13];
     
 		for (int i=0; i<N; i++) {
-			SumSicher = SicherDice1[StdRandom.uniform(6)]+SicherDice2[StdRandom.uniform(6)];
+
+			SumSicher = SicherDice1[StdRandom.uniform(6)]+SicherDice2[StdRandom.uniform(6)]; 
 			SumStandart = StdRandom.uniform(1,7)+StdRandom.uniform(1,7);
 			
-			ProbSicher[SumSicher] += 1/n;
-			ProbStandart [SumStandart] += 1/n;
-			
+			ProbSicher[SumSicher] += 1.0/N;
+			ProbStandart [SumStandart] += 1.0/N;	
 		}
-	 	double SicherMean = StdStats.mean (ProbSicher);
-	 	double StandartMean = StdStats.mean (ProbStandart);
+	 	double SicherMean = StdStats.mean (ProbSicher,2,12);
+	 	double StandartMean = StdStats.mean(ProbStandart,2,12);		
+	 	double StandartStdDev = StdStats.stddev(ProbStandart,2,12);
+	 	double SicherStdDev = StdStats.stddev(ProbSicher,2,12);
+	 	double StandartVar = StdStats.var(ProbStandart,2,12);
+	 	double SicherVar = StdStats.var (ProbSicher,2,12);
 		
-		
-		PrintArray("Sicher probabilities: ", ProbSicher);
-		PrintArray("Standart probabilities: ", ProbStandart); 
+		StdStats.plotBars(ProbStandart);
+		StdStats.plotBars(ProbSicher);
+
+		System.out.println("Sicher dices mean is: "+ SicherMean +", standart 6d dices mean is: "+StandartMean+"."); 
+		System.out.println("Sicher dices variance is: "+ SicherVar +", standart 6d dices variance is: "+StandartVar+".");  
+		System.out.println("Sicher dices standart deviation is: "+ SicherStdDev +", standart 6d dices standart deviation is: "+StandartStdDev+"."); 
+
         }
         
-  
- public static void PrintArray(String ArrayName, double[] Array)
-  {
-	   System.out.println(ArrayName);
-	   for (int i=2; i<Array.length; i++) 
-		System.out.print(Array[i] + " "); 
-	   System.out.println();
-  }  
 }
