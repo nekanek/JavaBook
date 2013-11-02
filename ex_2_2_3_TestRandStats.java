@@ -35,8 +35,8 @@ public class ex_2_2_3_TestRandStats
 	 	double PoissonVar = StdStats.var(Poisson);
 	 	double ParetoVar = StdStats.var (Pareto);
 		
-		StdStats.plotBars(Cauchy);
-		StdStats.plotBars(Bernoulli);
+		StdStats.plotBars(Pareto);
+		
 
 		System.out.println("UniformMean is: "+ UniformMean +", GaussianMean is: "+GaussianMean+"."); 
 		System.out.println("Poisson variance is: "+ PoissonVar +", Pareto variance is: "+ParetoVar+".");  
