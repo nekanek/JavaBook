@@ -1,47 +1,85 @@
 /*
-3. Write a test client for both StdStats and StdRandom that checks that all of the methods in both libraries operate as expected. Take a command-line parameter N, generate N random numbers using each of the methods in StdRandom, and print out their statistics. Extra credit : Defend the results that you get by comparing them to those that are to be expected from mathematical analysis.
+
+//34.Binomial distribution. Write a function public static double binomial(int k, int N, double p) to compute the probability of obtaining exactly k heads in N biased coin flips (heads with probability p) using the formula
+
+                     N! 
+
+    f(k, N, p) = --------- (p^k) ((1-p)^(N-k)) 
+
+                 k! (N-k)! 
+
+Hint: To stave off overflow, compute x = ln f(N, k, p) and then return e^x. In main(), take N and p from the command line and check that the sum over all values of k between 0 and N is (approximately) 1. Also, compare every value computed with the normal approximation f(N, k, p) = ?(Np, Np(1-p))
+
+(see Exercise 2.2.1).
+
 */
-
-
-public class ex_2_2_3_TestRandStats
-
+public class ex_2_1_34_binomial
 {
-   public static void main(String[]args)        
-     {
-		//test client
-		int N = Integer.parseInt(args[0]);
-		double [] Uniform = new double[N];
-		boolean [] Bernoulli = new boolean[N];
-		double [] Gaussian = new double[N];
-		int [] Geometric = new int[N];
-		int [] Poisson = new int[N];
-		double [] Pareto = new double[N];
-		double [] Cauchy = new double[N];
-		
-		for (int i=0; i<N; i++) {
-			Uniform[i] = StdRandom.uniform();
-			Bernoulli[i] = StdRandom.bernoulli(0.5);
-			Gaussian[i] = StdRandom.gaussian();
-			Geometric[i] = StdRandom.geometric(0.5);
-			Poisson[i] = StdRandom.poisson(0.5);
-			Pareto[i] = StdRandom.pareto(0.5); 
-			Cauchy[i] = StdRandom.cauchy();
-		}
-		
-	 	double UniformMean = StdStats.mean (Uniform);
-	 	double GaussianMean = StdStats.mean(Gaussian);		
-	 	double GaussianStdDev = StdStats.stddev(Gaussian);
-	 	double CauchyStdDev = StdStats.stddev(Cauchy);
-	 	double PoissonVar = StdStats.var(Poisson);
-	 	double ParetoVar = StdStats.var (Pareto);
-		
-		StdStats.plotBars(Cauchy);
-		StdStats.plotBars(Bernoulli);
 
-		System.out.println("UniformMean is: "+ UniformMean +", GaussianMean is: "+GaussianMean+"."); 
-		System.out.println("Poisson variance is: "+ PoissonVar +", Pareto variance is: "+ParetoVar+".");  
-		System.out.println("Gaussian standart deviation is: "+ GaussianStdDev +", Cauchy standart deviation is: "+CauchyStdDev+"."); 
+        public static void main(String[]args)        
+
+        {
+
+        //test client
+
+        int k = StdIn.readInt();
+
+        int N = StdIn.readInt();
+
+        double p = StdIn.readDouble();
+
+        double binomial = binomial(k, N, p);
+
+        
+
+                System.out.println("Probability of obtaining exactly "+ k +" heads in "+N+" biased coin flips equals "+binomial+" .");
 
         }
+
         
+
+        public static double binomial(int k, int N, double p)
+
+        {
+
+      double a = Math.log(factorial(N));
+	  System.out.println("a "+a +" .");
+	  double b =Math.log(Math.pow(p,k));
+	  System.out.println("b "+b +" .");
+	  double c =Math.log(Math.pow(1-p,N-k));
+	  System.out.println("c "+c +" .");
+	  double d =Math.log(factorial(k));
+	  System.out.println("d "+d +" .");
+	  double e =Math.log(factorial(N-k));
+	  System.out.println("e "+e +" .");
+	  double binomial = Math.pow(Math.E,(a+ b +c - d - e));
+	  
+	  //Math.pow(Math.E,(Math.log(factorial(N)) + Math.log(Math.pow(p,k)) + Math.log(Math.pow(1-p,N-k)) - Math.log(factorial(k)) - Math.log(factorial(N-k))));
+
+      //binomial = Math.log(binomial);
+
+      //return Math.pow(Math.E,binomial);
+	  return binomial;
 }
+
+         
+
+        //compute dot product
+
+        public static int factorial(int N)
+
+        {
+
+      int factorial = 1;
+
+      for (int i=N; i>1; i--) {
+
+        factorial *= i;}
+
+            return factorial;
+
+        }        
+
+
+
+ }
