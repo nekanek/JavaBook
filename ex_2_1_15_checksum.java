@@ -35,6 +35,9 @@ public class ex_2_1_15_checksum
 		
 	public static String[] Compute(String[] InputArray) 
 		{
+			// You should not limit yourself explicitly to 10 elements
+			// your function can work with the array of any size!
+			// Instead, use InputArray's size to determine the number of elements
 			for (int i=1; i<10; i+=2) {
 				InputArray[i]=Sum(Integer.parseInt(InputArray[i]));	
 			}
@@ -45,6 +48,8 @@ public class ex_2_1_15_checksum
 			
 			if (CheckSum%10==0) {
 			
+				// This place is unclear to me. Why do we need to add digits' values of the checksum recursively?
+				// Shouldn't we just append the value of CheckSum%10 to the initial number?
 				while (CheckSum>9) {
 					int CheckSum1 = Integer.parseInt((String.valueOf(CheckSum)).substring(0, 1));
 					int CheckSum2 = Integer.parseInt((String.valueOf(CheckSum)).substring(1, 2));
@@ -62,6 +67,9 @@ public class ex_2_1_15_checksum
 		
 	public static String Sum(int d) 
 		{
+			// Be simpler, use integer division and modulo by 10
+			// get the first digin as the quotient and the second as the remainder
+			// string operations are by several orders slower than integer arithmetics
 			int d2=2*d;
 			if (d2<10) {
 				return String.valueOf(d2);
