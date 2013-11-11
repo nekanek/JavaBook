@@ -13,6 +13,9 @@ Hint: To stave off overflow, compute x = ln f(N, k, p) and then return e^x. In m
 (see Exercise 2.2.1).
 
 */
+
+// My text formatting for this task was blows away. I hope, this was some technical issue and not your intention;)
+
 public class ex_2_1_34_binomial
 {
 

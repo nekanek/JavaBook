@@ -6,7 +6,8 @@ p0 + x (p1 + x( p2 + ... + x(pN-2 + xpN-1))...)
 Write a test client with a static method exp() that uses Horner.eval() to compute an approximation to e^x, using the first N terms of the Taylor series expansion e^x = 1 + x + x ^2/2! + x ^3/3! + .... Include code to check your answer against that computed by Math.exp(). 
 */
 
-public class ex_2_1_32_horner_ExpTest
+// Rename class - name of the public class shoud match the filename
+public class ex_2_1_32_horner_test
 
 {
         public static void main(String[]args)        
@@ -18,7 +19,7 @@ public class ex_2_1_32_horner_ExpTest
 			Double HornerExp = exp(x, N);
 			Double MathExp = Math.exp(x);
 			
-			System.out.println("e^"+x+"according to Math library equals "+ MathExp+", accroding to Horner's method it equals "+HornerExp+".");
+			System.out.println("e^"+x+" according to Math library equals "+ MathExp+", accroding to Horner's method it equals "+HornerExp+".");
         }
 
         public static double exp(double x, int N)
