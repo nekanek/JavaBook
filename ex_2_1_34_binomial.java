@@ -16,6 +16,8 @@ Hint: To stave off overflow, compute x = ln f(N, k, p) and then return e^x. In m
 
 // My text formatting for this task was blows away. I hope, this was some technical issue and not your intention;)
 
+// test push
+
 public class ex_2_1_34_binomial
 {
 
@@ -33,9 +35,7 @@ public class ex_2_1_34_binomial
 
         double binomial = binomial(k, N, p);
 
-        
-
-                System.out.println("Probability of obtaining exactly "+ k +" heads in "+N+" biased coin flips equals "+binomial+" .");
+        System.out.println("Probability of obtaining exactly "+ k +" heads in "+N+" biased coin flips equals "+binomial+" .");
 
         }
 
@@ -45,7 +45,7 @@ public class ex_2_1_34_binomial
 
         {
 
-      double a = Math.log(factorial(N));
+      	  double a = Math.log(factorial(N));
 	  System.out.println("a "+a +" .");
 	  double b =Math.log(Math.pow(p,k));
 	  System.out.println("b "+b +" .");
@@ -73,13 +73,14 @@ public class ex_2_1_34_binomial
 
         {
 
-      int factorial = 1;
+      		int factorial = 1;
 
-      for (int i=N; i>1; i--) {
+      		for (int i=N; i>1; i--) {
 
-        factorial *= i;}
+        		factorial *= i;
+		}
 
-            return factorial;
+            	return factorial;
 
         }        
 
