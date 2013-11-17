@@ -8,7 +8,7 @@ public class ex_2_1_18_rescale
 		{
 
 			int N = StdIn.readInt(); // number of array values
-			double[] InputArray = new double[N+2]; //extra 2 for min and max
+			double[] InputArray = new double[N]; //extra 2 for min and max
 			
 			for (int i=0; i<N; i++) {
 				InputArray[i]=StdIn.readDouble();
@@ -18,10 +18,10 @@ public class ex_2_1_18_rescale
 					StdOut.print(InputArray[i]+" ");
 				}
 			
-			InputArray = Minimum(InputArray); // compute max and min and write their values as last	2 array values
-			InputArray = Maximum(InputArray);
+			double Min = Minimum(InputArray); // compute max and min and write their values as last	2 array values
+			double Max = Maximum(InputArray);
 						
-			InputArray = Rescale(InputArray);
+			InputArray = Rescale(InputArray, Min, Max);
 			
 			StdOut.print("\nRescaled array:\n");
 				
@@ -39,32 +39,40 @@ public class ex_2_1_18_rescale
 	// There is a certain rule of thumb - Single Responsibility Rule. Each and every thing should do one thing and 
 	// do it good. The input array of N numbers - is a single role. But an array of N numbers and 2 additional numbers
 	// for min and max are 3 roles already. You better use 3 variables instead.
-	public static double[] Minimum(double[] InputArray) 
+	public static double Minimum(double[] InputArray) 
 		{
 			double Min = InputArray[0];
-			for (int i=1; i<(InputArray.length - 2); i++) {
+			for (int i=1; i<(InputArray.length); i++) {
 				if (Min > InputArray[i]) Min = InputArray[i];	
 			}
-			InputArray[InputArray.length - 2] = Min;
-			return InputArray;
+			return Min;
 		}
 
-	public static double[] Maximum(double[] InputArray) 
+	public static double Maximum(double[] InputArray) 
 		{
 			double Max = InputArray[0];
-			for (int i=1; i<(InputArray.length - 2); i++) {
+			for (int i=1; i<(InputArray.length); i++) {
 				if (Max < InputArray[i]) Max = InputArray[i];	
 			}
-			InputArray[InputArray.length - 1] = Max;
-			return InputArray;
+			return Max;
 		}	
 		
-	public static double[] Rescale(double[] InputArray) 
+	public static double[] Rescale(double[] InputArray, double Min, double Max) 
 		{
-			for (int i=0; i<(InputArray.length - 2); i++) {
-				// Here we get division by zero or by extremely small value if (max - min) == epsilon
-				// Try to input the array like {1, 1, 1, 1}
-				InputArray[i]=((InputArray[i]-InputArray[InputArray.length - 2])/(InputArray[InputArray.length - 1]-InputArray[InputArray.length - 2]));	
+			// N: dunno how to rescale those cases better.../ guess this now should work for all cases../
+			if ((Max-Min)==0.0) {
+				if (Max<0.0||Max>1.0) {
+				    for (int i=0; i<(InputArray.length); i++) 
+					InputArray[i]=1.0;
+				}
+			}
+
+			else {
+				for (int i=0; i<(InputArray.length); i++) {
+				    // Here we get division by zero or by extremely small value if (max - min) == epsilon
+				    // Try to input the array like {1, 1, 1, 1}
+				    InputArray[i]=((InputArray[i]-Min)/(Max-Min));
+				}
 			}
 			return InputArray;
 		}
