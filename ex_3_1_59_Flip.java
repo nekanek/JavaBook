@@ -5,11 +5,11 @@
 public class ex_3_1_59_Flip {
 
     public static void main(String[] args) {
-        
-        int w = Integer.parseInt(args[0]); // width
-	int h = Integer.parseInt(args[1]); // height
+	
+	Picture source = new Picture(args[0]); // source picture        
+    int w = source.width(); // width
+	int h = source.height(); // height
 	Picture flipped = new Picture(w, h);
-	Picture source = new Picture(args[2]); // source picture
 	
 	// if there's even number of pixels on horizontal axe, directly flipping em
 	if(w%2==0) {
