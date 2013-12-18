@@ -27,7 +27,7 @@
  *
  *************************************************************************/
 
-public class Rational {
+public class ex_3_2_18_Rational {
     private final int p;   // the dividend
     private final int q;   // the divisor
 
