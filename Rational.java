@@ -27,7 +27,7 @@
  *
  *************************************************************************/
 
-public class ex_3_2_18_Rational {
+public class Rational {
     private final int p;   // the dividend
     private final int q;   // the divisor
 
@@ -43,44 +43,48 @@ public class ex_3_2_18_Rational {
 			p = dividend;
 			q = divisor;		
 		}
-    }
+	}
 
     // return a string representation of the invoking Rational object
     public String toString() {
         if (q == 0) { 
 			double inf = Double.POSITIVE_INFINITY; 
-			return inf;
+			return Double.toString(inf);
 		}
 		else if (p == 0) return "0";
         else return p + "/" + q;
     }
 
-    // return abs/modulus/magnitude and angle/phase/argument
-    public double abs()   { return Math.hypot(re, im); }  // Math.sqrt(re*re + im*im)
-    public double phase() { return Math.atan2(im, re); }  // between -pi and pi
-
-    // return a new Complex object whose value is (this + b)
-    public Complex plus(Complex b) {
-        Complex a = this;             // invoking object
-        double real = a.re + b.re;
-        double imag = a.im + b.im;
-        return new Complex(real, imag);
+    
+    public Rational plus(Rational b) {
+        //Complex a = this;             // invoking object
+        int dividend = p*b.q + q*b.p;
+        int divisor = q*b.q;
+        return new Rational(dividend, divisor);
     }
 
-    // return a new Complex object whose value is (this - b)
-    public Complex minus(Complex b) {
-        Complex a = this;
-        double real = a.re - b.re;
-        double imag = a.im - b.im;
-        return new Complex(real, imag);
+//    // return a new Complex object whose value is (this + b)
+//    public Complex plus(Complex b) {
+//        Complex a = this;             // invoking object
+//        double real = a.re + b.re;
+//        double imag = a.im + b.im;
+//        return new Complex(real, imag);
+//    }
+
+
+    public Rational minus(Rational b) {
+       // Complex a = this;
+        int dividend = p*b.q - q*b.p;
+        int divisor = q*b.q;
+        return new Rational(dividend, divisor);
     }
 
-    // return a new Complex object whose value is (this * b)
-    public Complex times(Complex b) {
-        Complex a = this;
-        double real = a.re * b.re - a.im * b.im;
-        double imag = a.re * b.im + a.im * b.re;
-        return new Complex(real, imag);
+
+    public Rational times(Rational b) {
+        //Complex a = this;
+        int dividend = p*b.p;
+        int divisor = q*b.q;
+        return new Rational(dividend, divisor);
     }
 
     // scalar multiplication
