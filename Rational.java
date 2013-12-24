@@ -1,31 +1,7 @@
-/*************************************************************************
- *  Compilation:  javac Rational.java
- *  Execution:    java Rational
- *
- *  Data type for rational numbers.
- *
- *  The data type is "immutable". 
- 
- наибольший общий делитель числителя и знаменателя равен 1 (понятно, кроме 0/1). Соотв., надо заимплементить методы сложения, вычитания, умножения и деления. При этом класс немутабельный, все эти методы создают новый объект с новым значением
- *
- *  % java Rational
- *  a            = 5.0 + 6.0i
- *  b            = -3.0 + 4.0i
- *  Re(a)        = 5.0
- *  Im(a)        = 6.0
- *  b + a        = 2.0 + 10.0i
- *  a - b        = 8.0 + 2.0i
- *  a * b        = -39.0 + 2.0i
- *  b * a        = -39.0 + 2.0i
- *  a / b        = 0.36 - 1.52i
- *  (a / b) * b  = 5.0 + 6.0i
- *  conj(a)      = 5.0 - 6.0i
- *  |a|          = 7.810249675906654
- 
- 
- *  equals(b)    = true
- *
- *************************************************************************/
+/* 
+3.2.17-18. Rational numbers. Create a data type Rational.java and BigRational.java for positive rational numbers.
+Rational numbers. Modify Rational.java to provide support for negative rationals and zero.
+*/
 
 public class Rational {
     private final long p;   // the dividend, will store the sign
