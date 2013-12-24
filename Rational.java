@@ -28,140 +28,158 @@
  *************************************************************************/
 
 public class Rational {
-    private final int p;   // the dividend
-    private final int q;   // the divisor
+    private final long p;   // the dividend, will store the sign
+    private final long q;   // the divisor
 
     // create a new object given dividend and divisor
-    public Rational(int dividend, int divisor)
+    public Rational(long dividend, long divisor)
 	{
-		if (divisor==0) System.out.println("Illegal value of divisor. Denominator can't equal 0 for rational numbers.");
+		if (divisor==0)  {
+			//p = 0; q=0;
+			throw new RuntimeException("Illegal value of divisor. Denominator can't equal 0 for rational numbers.");
+			//System.out.println("Illegal value of divisor. Denominator can't equal 0 for rational numbers.");
+		}
 		else if (divisor<0) {
-			p = -dividend;
+			p = -dividend; // works both for -p/-q and p/-q
 			q = -divisor;
 		}
 		else {
-			p = dividend;
-			q = divisor;		
+			p = dividend; 
+			q = divisor;	
 		}
 	}
 
     // return a string representation of the invoking Rational object
     public String toString() {
-        if (q == 0) { 
+		/*         if (q == 0) { 
 			double inf = Double.POSITIVE_INFINITY; 
 			return Double.toString(inf);
-		}
-		else if (p == 0) return "0";
+		} */
+		if (p == 0) return "0";
+		else if (q==1) return ""+p;
         else return p + "/" + q;
     }
 
-    
+     // return a + b   
     public Rational plus(Rational b) {
-        //Complex a = this;             // invoking object
-        int dividend = p*b.q + q*b.p;
-        int divisor = q*b.q;
-        return new Rational(dividend, divisor);
+        long dividend = p*b.q + q*b.p;
+        long divisor = q*b.q;
+		Rational c = new Rational(dividend, divisor);
+		return c.reduce();
     }
 
-//    // return a new Complex object whose value is (this + b)
-//    public Complex plus(Complex b) {
-//        Complex a = this;             // invoking object
-//        double real = a.re + b.re;
-//        double imag = a.im + b.im;
-//        return new Complex(real, imag);
-//    }
-
-
+    // return a - b
     public Rational minus(Rational b) {
-       // Complex a = this;
-        int dividend = p*b.q - q*b.p;
-        int divisor = q*b.q;
-        return new Rational(dividend, divisor);
+        long dividend = p*b.q - q*b.p;
+        long divisor = q*b.q;
+		Rational c = new Rational(dividend, divisor);
+		return c.reduce();
     }
 
-
+    // return a * b
     public Rational times(Rational b) {
-        //Complex a = this;
-        int dividend = p*b.p;
-        int divisor = q*b.q;
-        return new Rational(dividend, divisor);
+        long dividend = p*b.p;
+        long divisor = q*b.q;
+		Rational c = new Rational(dividend, divisor);
+		return c.reduce();
     }
-
-    // scalar multiplication
-    // return a new object whose value is (this * alpha)
-    public Complex times(double alpha) {
-        return new Complex(alpha * re, alpha * im);
-    }
-
-    // return a new Complex object whose value is the conjugate of this
-    public Complex conjugate() {  return new Complex(re, -im); }
-
-    // return a new Complex object whose value is the reciprocal of this
-    public Complex reciprocal() {
-        double scale = re*re + im*im;
-        return new Complex(re / scale, -im / scale);
-    }
-
-    // return the real or imaginary part
-    public double re() { return re; }
-    public double im() { return im; }
 
     // return a / b
-    public boolean divides(Complex b) {
-        Complex a = this;
-        return a.times(b.reciprocal());
+    public Rational divide(Rational b) {
+        long dividend = p*b.q;
+        long divisor = q*b.p;
+		Rational c = new Rational(dividend, divisor);
+		return c.reduce();
     }
 
-    // return a new Complex object whose value is the complex exponential of this
-    public Complex exp() {
-        return new Complex(Math.exp(re) * Math.cos(im), Math.exp(re) * Math.sin(im));
+    // return the dividend or divisor
+    public double p() { return p; }
+    public double q() { return q; }
+
+	
+
+    // raising to a power
+    public Rational power(int x) {
+    	Rational c = new Rational((long)Math.pow(p,x), (long)Math.pow(q,x));
+		return c.reduce();
+	}
+	
+
+/*     public Rational root(int x) {
+        return new Complex(Math.power(p,1/x), Math.power(q,1/x));
+    } */
+	
+	
+    // return value of e^Rational
+    public Double exp() {
+		//Double e = Math.pow(Math.E,p/q);
+        return Math.pow(Math.E,(p/q));
     }
 
-    // return a new Complex object whose value is the complex sine of this
-    public Complex sin() {
-        return new Complex(Math.sin(re) * Math.cosh(im), Math.cos(re) * Math.sinh(im));
+	// absolute value of a number
+    public Rational abs() {
+		if (p>=0) return  new Rational(p,q);
+		else return  new Rational(-p,q);
+    }	
+	
+    // return a double value sin(Rational)
+    public Double sin() {
+        return Math.sin(p/q);
     }
 
-    // return a new Complex object whose value is the complex cosine of this
-    public Complex cos() {
-        return new Complex(Math.cos(re) * Math.cosh(im), -Math.sin(re) * Math.sinh(im));
+    // return a double value sin(Rational)
+    public Double cos() {
+        return Math.cos(p/q);
     }
 
-    // return a new Complex object whose value is the complex tangent of this
-    public Complex tan() {
-        return sin().divides(cos());
+    // return a double value sin(Rational)
+    public Double tan() {
+        return sin()/cos();
     }
 	
+
+	// return a new Rational object whose value is reduced value of the same rational
+    public Rational reduce() {
+		// find the greatest common divisor
+		long Min = Math.min(Math.abs(p), q);
+		for (long i = Min; i>0; i--) {
+			if  (((q%i)==0)&&((p%i)==0)) 
+				return new Rational(p/i, q/i);	
+		}
+		Rational a = new Rational(p, q);
+		return a;
+    }   
 	
-	
-	
-	
-    // return true if both denominator and divisor are equivalent for two objects
-    public boolean equals(Rational b) {
+    // return true if both denominator and divisor are equivalent for two objects	
+	public boolean equals(Rational b) {
         return (p==b.p&&q==b.q);
     }    
 
-
-
-
     // sample client for testing
     public static void main(String[] args) {
-        Complex a = new Complex(5.0, 6.0);
-        Complex b = new Complex(-3.0, 4.0);
+        Rational a = new Rational(1, 1);
+        Rational b = new Rational(-4, 9);
 
         System.out.println("a            = " + a);
         System.out.println("b            = " + b);
-        System.out.println("Re(a)        = " + a.re());
-        System.out.println("Im(a)        = " + a.im());
+ 
         System.out.println("b + a        = " + b.plus(a));
-        System.out.println("a - b        = " + a.minus(b));
-        System.out.println("a * b        = " + a.times(b));
-        System.out.println("b * a        = " + b.times(a));
-        System.out.println("a / b        = " + a.divides(b));
-        System.out.println("(a / b) * b  = " + a.divides(b).times(b));
-        System.out.println("conj(a)      = " + a.conjugate());
+		System.out.println("a - b        = " + a.minus(b));
+        System.out.println("a * b         = " + a.times(b));
+        System.out.println("a / b         = " + a.divide(b));
+		
+		System.out.println("a equals b is " + b.equals(a));
+		System.out.println("toString method check: a is "+ a.toString());
+
+        System.out.println("dividend of b = " + b.p());
+        System.out.println("divisor of a  = " + a.q());
+        System.out.println("a ^ 3         = " + a.power(3));		
+        System.out.println("e ^ a         = " + a.exp());	      
         System.out.println("|a|          = " + a.abs());
-        System.out.println("tan(a)       = " + a.tan());
+
+        System.out.println("sin(a)       = " + a.sin()); 
+        System.out.println("cos(a)       = " + a.cos()); 
+        System.out.println("tan(a)       = " + a.tan()); 		
     }
 
 }
