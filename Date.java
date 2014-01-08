@@ -12,7 +12,7 @@ public class Date {
 	{
 		// check validity of entered date
 		boolean lpYear = (((yr%4 == 0) && (yr%100 != 0)) || (yr%400 == 0));
-		if ((mo<1)||(mo>12)||(da<1)||(da>31)||(yr<0)||((mo==2)&&(da>29)&& lpYear)||((mo==2)&&(da>28)&&(!lpYear))) {
+		if ((mo<1)||(mo>12)||(da<1)||(da>31)||(yr<1)||((mo==2)&&(da>29)&& lpYear)||((mo==2)&&(da>28)&&(!lpYear))) {
 			throw new RuntimeException("Illegal date. Please, check.");
 		}
 
@@ -90,12 +90,12 @@ public class Date {
 
 	if (equals(b)) return days;
 	else if (older(b)) {
-	    minDate = new Date(b.dd, b.mm, b.year);
-	    maxDate = new Date(dd, mm, year);
+	    maxDate = new Date(b.dd, b.mm, b.year);
+	    minDate = new Date(dd, mm, year);
 	}
 	else {
-	    minDate = new Date(dd, mm, year);
-	    maxDate = new Date(b.dd, b.mm, b.year);   	
+	    maxDate = new Date(dd, mm, year);
+	    minDate = new Date(b.dd, b.mm, b.year);   	
 	}
 
 	// add days of year if there is at least 1 whole year between dates
@@ -108,7 +108,7 @@ public class Date {
 	}
 	
 	// add days of month from min date till the end of the year or till max date
-	if (maxDate.older(minDate.endOfYear())) {
+	if (!maxDate.older(minDate.endOfYear())) {
 	    // maxDate is in another year, counting till the end of min year
 	    // counting days in full months
 	    if ((12 - minDate.mm) > 0) {
@@ -156,7 +156,7 @@ public class Date {
     }
     
     public boolean older(Date b) {
-	if (year > b.year || ((year == b.year) && ((mm > b.mm) || ((mm == b.mm) && (dd >= b.dd))))) return true;
+	if (year < b.year || ((year == b.year) && ((mm < b.mm) || ((mm == b.mm) && (dd <= b.dd))))) return true;
 	else return false;
     }
    
@@ -172,33 +172,37 @@ public class Date {
     public String dayOfWeek() {
 	String weekDay = "";
 	int remainder = 0;
-	if (year >= 1990) {
-	    Date tempDate = new Date (1,1,1990);
-	    remainder = daysPassed(tempDate)%7;
+	Date tempDate = new Date(1,1,1990);
+	if (equals(tempDate)) return "Monday";
+	else if (older(tempDate) ) {
+	    tempDate = new Date(1,1,1901);
+	    if (equals(tempDate)) return "Monday";
+	    else if (older(tempDate)) {
+		tempDate = new Date (3,1,1);
+		if (equals(tempDate)) return "Monday";
+		else if (older(tempDate)&&dd==1) return "Saturday";
+		else if (older(tempDate)&&dd==2) return "Sunday";
+	    }   
 	}
-	else if (year > 1900) {
-	    
-	}
-	else if (year > 0) {
-	    
-	}
-	switch(remainder) {
-	    case 0:
-		weekDay = "Monday"; break; 	    
-	    case 1:
-		weekDay = "Monday"; break; 
-	    case 2:
-		weekDay = "Monday"; break; 
-	    case 3:
-		weekDay = "Monday"; break; 
-	    case 4:
-		weekDay = "Monday"; break; 
-	    case 5:
-		weekDay = "Monday"; break; 
-	    case 6:
-		weekDay = "Monday"; break; 
+	
+	remainder = (daysPassed(tempDate))%7;
+	    switch(remainder) {
+		case 0:
+		    weekDay = "Monday"; break; 	    
+		case 1:
+		    weekDay = "Tuesday"; break; 
+		case 2:
+		    weekDay = "Wednesday"; break; 
+		case 3:
+		    weekDay = "Thursday"; break; 
+		case 4:
+		    weekDay = "Friday"; break; 
+		case 5:
+		    weekDay = "Saturday"; break; 
+		case 6:
+		    weekDay = "Sunday"; break; 
 
-	}
+	    }
 	return weekDay;
     }
 
@@ -210,15 +214,15 @@ public class Date {
 	Date tempDate = new Date (newDay, newMonth, newYear);
 	
 	while (days > (tempDate.daysInMonth()-newDay)) {
-	    days -= daysInMonth()-newDay;
+	    days -= tempDate.daysInMonth()-newDay;
 	    if (newMonth == 12) {
 		newMonth = 1;
 		newYear += 1;
 	    }
 	    else newMonth += 1;
 	    
-	    newDay = 1;
-	    tempDate = new Date (newDay, newMonth, newYear);
+	    newDay = 0;
+	    tempDate = new Date (1, newMonth, newYear);
 	}
 	newDay += days;
 	tempDate = new Date (newDay,newMonth,newYear);
@@ -228,15 +232,18 @@ public class Date {
 
     // sample client for testing
     public static void main(String[] args) {
-        Date a = new Date(1, 1,2013);
+        Date a = new Date(1, 1,1901);
         Date b = new Date(Integer.parseInt(args[0]), Integer.parseInt(args[1]),Integer.parseInt(args[2]));
 	
         System.out.println("a            = " + a.printDDMMYYYY());
         System.out.println("b            = " + b.toString());
 	System.out.println("Days passed: " + a.daysPassed(b));
+	Date testDate = new Date (31,12,1990);
+	System.out.println("Since 1/1/1990 till "+ b.toString() + " " + b.daysPassed(testDate)+ " days passed." );
 	
-	if (b.leapYear()) System.out.println("b is a leap year.");
-	else System.out.println("b isn't a leap year.");
+	if (b.leapYear()) System.out.println("b is a leap year." + ((2004%4 == 0) && (2004%100 != 0)) );
+	//	if ( ((year%4 == 0) && (year%100 != 0)) || (year%400 == 0) ) return true;
+	else System.out.println("b isn't a leap year."+2004%4);
 	
 	if (a.equals(b)) System.out.println("Dates a and b are the same.");
 	else if (a.older(b)) System.out.println("Date a is older."); 
