@@ -1,5 +1,6 @@
 /* 
 Dates. Create a data type Date that represents a date. You should be able to create a new Date by specifying the month, day, and year. It should supports methods to compute the number of days between two dates, return the day of the week that a day falls on, etc. 
+
 */
 
 public class Date {
@@ -28,7 +29,7 @@ public class Date {
         return dd + "/"+mm + "/"+year;
     }
     
-    public String printDDMMYYYY() {	
+    public String printSlash() {	
         if (dd < 10) {
 	    if (mm < 10) {
 		return "0" + dd + "/" + "0" + mm + "/" + year;
@@ -39,6 +40,32 @@ public class Date {
 	    return dd + "/" + "0" + mm + "/" + year;
 	} 
 	else return dd + "/" + mm + "/" + year;
+    }
+
+    public String printEng() {	
+        if (dd < 10) {
+	    if (mm < 10) {
+		return "0" + mm + "/" + "0" + dd + "/" + year;
+	    }
+	    else return "0" + mm + "/" + dd + "/" + year;
+	}
+	else if (mm < 10) {
+	    return "0" + mm + "/" + dd + "/" +  year;
+	} 
+	else return mm + "/" + dd + "/" + year;
+    }
+
+    public String printDot() {	
+        if (dd < 10) {
+	    if (mm < 10) {
+		return "0" + dd + "." + "0" + mm + "." + year;
+	    }
+	    else return "0" + dd + "." + mm + "." + year;
+	}
+	else if (mm < 10) {
+	    return dd + "." + "0" + mm + "." + year;
+	} 
+	else return dd + "." + mm + "." + year;
     }
     
     public boolean leapYear() {
@@ -100,7 +127,7 @@ public class Date {
 
 	// add days of year if there is at least 1 whole year between dates
 	if ((maxDate.year-minDate.year)>1) {
-	    for (int y = maxDate.year; y > minDate.year; y--) {
+	    for (int y = maxDate.year-1; y > minDate.year; y--) {
 		Date tempDate = new Date(1,1,y);
 		if (tempDate.leapYear()) days += 356;
 		else days += 355;
@@ -112,27 +139,27 @@ public class Date {
 	    // maxDate is in another year, counting till the end of min year
 	    // counting days in full months
 	    if ((12 - minDate.mm) > 0) {
-		for (int m = 12; m > minDate.mm; m--) {
-		    Date tempDate = new Date(1,m,minDate.year);
-		    days += tempDate.daysInMonth();
-		}
+			for (int m = 12; m > minDate.mm; m--) {
+				Date tempDate = new Date(1,m,minDate.year);
+				days += tempDate.daysInMonth();
+			}
 	    }
 	    // counting days of minDate month
 	    days += (minDate.daysInMonth()-minDate.dd);
 	    
 	    // counting days in maxDate year
-	    // counting days of maxDate month
-	    days += (maxDate.dd);	    
+		// counting days in full months 
 	    if (maxDate.mm > 1) {
 		    for (int m = 1; m < maxDate.mm; m++) {
 			Date tempDate = new Date(1,m,maxDate.year);
 			days += tempDate.daysInMonth();
 		    }
 	    }
-
+	    // counting days of maxDate month
+	    days += (maxDate.dd);
 	}    
 	else {
-	    // max date is in the same year as minDate, counting days till max date
+	    // max date is in the same year as minDate, counting days from min till max date
 	    if (minDate.mm == maxDate.mm) {
 		days += maxDate.dd-minDate.dd;
 	    }
@@ -156,77 +183,81 @@ public class Date {
     }
     
     public boolean older(Date b) {
-	if (year < b.year || ((year == b.year) && ((mm < b.mm) || ((mm == b.mm) && (dd <= b.dd))))) return true;
-	else return false;
-    }
-   
-    public boolean equals(Date b) {
-	if (dd == b.dd && mm == b.mm && year == b.year) return true;
-	else return false;
-    }
-    
-    public Date endOfYear() {
-	return new Date(31,12,year);
-    }  
-    
-    public String dayOfWeek() {
-	String weekDay = "";
-	int remainder = 0;
-	Date tempDate = new Date(1,1,1990);
-	if (equals(tempDate)) return "Monday";
-	else if (older(tempDate) ) {
-	    tempDate = new Date(1,1,1901);
-	    if (equals(tempDate)) return "Monday";
-	    else if (older(tempDate)) {
-		tempDate = new Date (3,1,1);
-		if (equals(tempDate)) return "Monday";
-		else if (older(tempDate)&&dd==1) return "Saturday";
-		else if (older(tempDate)&&dd==2) return "Sunday";
-	    }   
-	}
-	
-	remainder = (daysPassed(tempDate))%7;
-	    switch(remainder) {
-		case 0:
-		    weekDay = "Monday"; break; 	    
-		case 1:
-		    weekDay = "Tuesday"; break; 
-		case 2:
-		    weekDay = "Wednesday"; break; 
-		case 3:
-		    weekDay = "Thursday"; break; 
-		case 4:
-		    weekDay = "Friday"; break; 
-		case 5:
-		    weekDay = "Saturday"; break; 
-		case 6:
-		    weekDay = "Sunday"; break; 
+		if (year < b.year || ((year == b.year) && ((mm < b.mm) || ((mm == b.mm) && (dd <= b.dd))))) return true;
+		else return false;
+		}
+	   
+	public boolean equals(Date b) {
+		if (dd == b.dd && mm == b.mm && year == b.year) return true;
+		else return false;
+		}
+		
+	public Date endOfYear() {
+		return new Date(31,12,year);
+		}  
 
-	    }
-	return weekDay;
+	public Date endOfMonth() {
+		return new Date(daysInMonth(),mm,year);
+		} 
+		
+	public String dayOfWeek() {
+		String weekDay = "";
+		int remainder = 0;
+		Date tempDate = new Date(1,1,1990);
+		if (equals(tempDate)) return "Monday";
+		else if (older(tempDate) ) {
+			tempDate = new Date(1,1,1901);
+			if (equals(tempDate)) return "Monday";
+			else if (older(tempDate)) {
+			tempDate = new Date (3,1,1);
+			if (equals(tempDate)) return "Monday";
+			else if (older(tempDate)&&dd==1) return "Saturday";
+			else if (older(tempDate)&&dd==2) return "Sunday";
+			}   
+		}
+		
+		remainder = (daysPassed(tempDate))%7;
+		switch(remainder) {
+			case 0:
+				weekDay = "Monday"; break; 	    
+			case 1:
+				weekDay = "Tuesday"; break; 
+			case 2:
+				weekDay = "Wednesday"; break; 
+			case 3:
+				weekDay = "Thursday"; break; 
+			case 4:
+				weekDay = "Friday"; break; 
+			case 5:
+				weekDay = "Saturday"; break; 
+			case 6:
+				weekDay = "Sunday"; break; 
+
+		}
+		return weekDay;
     }
 
     public Date addDays(int days) {
 
-	int newDay = dd;
-	int newMonth = mm;
-	int newYear = year;
-	Date tempDate = new Date (newDay, newMonth, newYear);
-	
-	while (days > (tempDate.daysInMonth()-newDay)) {
-	    days -= tempDate.daysInMonth()-newDay;
-	    if (newMonth == 12) {
-		newMonth = 1;
-		newYear += 1;
-	    }
-	    else newMonth += 1;
-	    
-	    newDay = 0;
-	    tempDate = new Date (1, newMonth, newYear);
-	}
-	newDay += days;
-	tempDate = new Date (newDay,newMonth,newYear);
-	return tempDate;
+		int newDay = dd;
+		int newMonth = mm;
+		int newYear = year;
+		Date newDate = new Date (newDay, newMonth, newYear);
+		
+		while (days > (newDate.daysInMonth()-newDate.dd)) {
+			days -= newDate.daysInMonth()-newDay + 1;
+			if (newMonth == 12) {
+			newMonth = 1;
+			newYear += 1;
+			}
+			else {newMonth += 1;}
+			
+			newDay = 1;
+			newDate = new Date (newDay, newMonth, newYear);
+		}
+		newDay += days;
+		newDate = new Date (newDay,newMonth,newYear);
+		return newDate;
     }	
   
 
@@ -235,22 +266,25 @@ public class Date {
         Date a = new Date(1, 1,1901);
         Date b = new Date(Integer.parseInt(args[0]), Integer.parseInt(args[1]),Integer.parseInt(args[2]));
 	
-        System.out.println("a            = " + a.printDDMMYYYY());
+        System.out.println("a            = " + a.printSlash());
         System.out.println("b            = " + b.toString());
-	System.out.println("Days passed: " + a.daysPassed(b));
-	Date testDate = new Date (31,12,1990);
-	System.out.println("Since 1/1/1990 till "+ b.toString() + " " + b.daysPassed(testDate)+ " days passed." );
-	
-	if (b.leapYear()) System.out.println("b is a leap year." + ((2004%4 == 0) && (2004%100 != 0)) );
-	//	if ( ((year%4 == 0) && (year%100 != 0)) || (year%400 == 0) ) return true;
-	else System.out.println("b isn't a leap year."+2004%4);
-	
-	if (a.equals(b)) System.out.println("Dates a and b are the same.");
-	else if (a.older(b)) System.out.println("Date a is older."); 
-	else System.out.println("Date b is older."); 
-	
-	System.out.println("60 days after " + b + " it will be " + b.addDays(60) + ".");
-	System.out.println(b + " is " + b.dayOfWeek() + ".");
+		System.out.println("Days passed: " + a.daysPassed(b));
+		Date testDate = new Date (01,1,1990);
+		System.out.println("Since "+ testDate.toString() + " till "+ b.toString() + " " + b.daysPassed(testDate)+ " days passed." );
+		
+		if (b.leapYear()) System.out.println("b is a leap year." + ((2004%4 == 0) && (2004%100 != 0)) );
+
+		else System.out.println("b isn't a leap year.");
+		
+		if (a.equals(b)) System.out.println("Dates a and b are the same.");
+		else if (a.older(b)) System.out.println("Date a is older."); 
+		else System.out.println("Date b is older."); 
+		
+		System.out.println("End of month " + b + " is " + b.endOfMonth().toString() + ".");
+		
+		System.out.println("60 days after " + b + " it will be " + b.addDays(60) + ".");
+		System.out.println(b + " is " + b.dayOfWeek() + ".");
+		System.out.println(b + " plus 1 day is " + b.addDays(1));	
     }
     
 
