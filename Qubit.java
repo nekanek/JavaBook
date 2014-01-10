@@ -4,32 +4,34 @@
 
 public class Qubit {
     
-    private final Complex q;
-	private final boolean observed;
-	private final int value;
+    private final Complex prob0;
+    private final Complex prob1;
+    private	boolean observed;
+    private	int value;
 	
-    public Qubit(int a, int b)
-	{
+    public Qubit(Complex a, Complex b) {
 		// check validity of entered values
-		if (!((a*a + b*b)==1)) {
-			throw new RuntimeException("Illegal qubit. Please, check that |a + bi| = 1.");
+	
+		if (!((a.times(a).plus(b.times(b)).re()==1d) && (a.times(a).plus(b.times(b)).im()==0d))) {
+			throw new RuntimeException("Illegal qubit. Please, check that |a|^2 + |b|^2 = 1.");
 		}
 
 		else {
-			q = new Complex (a, b);
+			prob0 = a;
+			prob1 = b;
 			observed = false;
 		}
 	}
 
 
     public String toString() {	
-        return Complex.re() + " + "+ Complex.im() + "i.";
+        return "(" + prob0.toString() + ") |0> + ("+ prob1.toString() + ") |1>.";
     }
     
     public boolean observe() {
 		if (!observed) {
 			observed = true;
-			if (Math.random() <= re()*re()) value = 1;
+			if ((prob1.times(prob1).re()>Math.random()) && (prob1.times(prob1).im()==0d)) value = 1;
 			else value = 0;
 		}
 		if (value == 1) return true;
@@ -40,16 +42,19 @@ public class Qubit {
 
     // sample client for testing
     public static void main(String[] args) {
-        Qubit zero = new Qubit(1, 0);
-        Qubit one = new Qubit(0, 1);
-		Qubit test = new Qubit(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+
+	Qubit zero = new Qubit(new Complex(1d,0d), new Complex(0d,0d));
+        Qubit one = new Qubit(new Complex(0d,0d), new Complex(1d,0d));
 	
         System.out.println("Observed (1) qubit zero is " + zero.observe());
-        System.out.println("Observed (1) qubit one is " + one.observe()); 
         System.out.println("Observed (2) qubit zero is " + zero.observe());
+        System.out.println("Observed (1) qubit one is " + one.observe());	
         System.out.println("Observed (2) qubit one is " + one.observe());
-        System.out.println("Observed (1) qubit test is " + test.observe());
-        System.out.println("Observed (2) qubit test is " + test.observe());		
+	
+	// uncomment this to run with test qubit
+//	Qubit test = new Qubit(new Complex(Double.parseDouble(args[0]),Double.parseDouble(args[1])),new Complex(Double.parseDouble(args[2]),Double.parseDouble(args[3])));
+//	for (int i=1; i<11; i++) System.out.println("Observed ("+i+") qubit test is " + test.observe());	    
+	
     }
     
 
