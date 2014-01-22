@@ -129,9 +129,9 @@ public class Date {
             System.out.println("***here loop " + days);
             Date tempDate = new Date(1,1,y);
             if (tempDate.leapYear()) {
-                days += 356;
+                days += 366;
             } else {
-                days += 355;
+                days += 365;
             }
         }
     }
@@ -252,7 +252,7 @@ public class Date {
 
     // sample client for testing
     public static void main(String[] args) {
-        Date a = new Date(1, 1,1901);
+        Date a = new Date(1, 1,1990);
         Date b = new Date(Integer.parseInt(args[0]), Integer.parseInt(args[1]),Integer.parseInt(args[2]));
 
         System.out.println("a            = " + a.printSlash());
