@@ -1,5 +1,10 @@
 //13. Sparse vector. Create a data type for sparse vectors. Represent a sparse vector by an array of indices (of nonzeros) and a parallel array of the corresponding nonzero values. Assume the indices are in ascending order. Implement the dot product operation.
 
+interface SparseVector ?
+    class SpVint implements SparseVector?
+
+input: 5     1 2 3 4 5  0 56 67 87 567 
+
 public class SparseVector {
 
     private final int N;         // length of the vector
