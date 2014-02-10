@@ -57,7 +57,7 @@
  *  @author Kevin Wayne
  */
 
-package stanfStd;
+package JavaBook.stanfStd;
 
 public class StdArrayIO {
 

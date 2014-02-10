@@ -36,7 +36,7 @@
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
-package stanfStd;
+package JavaBook.stanfStd;
 
 public final class StdStats {
 

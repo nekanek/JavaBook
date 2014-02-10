@@ -1,7 +1,9 @@
 /*
 2.4.8. Modify Percolation.java to animate the flow computation, showing the sites filling one by one. Check your answer to the previous exercise.
 */
+//package JavaBook;
 
+import stanfStd.*;
 
 public class ex_2_4_8_PercolationFlow {
 
@@ -13,7 +15,7 @@ public class ex_2_4_8_PercolationFlow {
         for (int j = 0; j < N; j++) {
             flow(open, full, 0, j);
         }
-        return full;
+        return full; // testing comment
     }
 
     // determine set of full sites using depth first search

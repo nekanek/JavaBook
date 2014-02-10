@@ -43,7 +43,7 @@
  *      strength random number generator in Java.
  *
  *************************************************************************/
-package stanfStd;
+package JavaBook.stanfStd;
 
 import java.util.Random;
 

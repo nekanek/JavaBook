@@ -20,7 +20,7 @@
  *       it can cause flicker
  *
  *************************************************************************/
-package stanfStd;
+package JavaBook.stanfStd;
 
 import java.awt.*;
 import java.awt.event.*;

@@ -5,7 +5,7 @@
  *  Reads in data of various types from standard input.
  *
  *************************************************************************/
-package stanfStd;
+package JavaBook.stanfStd;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;

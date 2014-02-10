@@ -5,7 +5,7 @@
  *  Writes data of various types to standard output.
  *
  *************************************************************************/
-package stanfStd;
+package JavaBook.stanfStd;
 
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
