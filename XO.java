@@ -1,4 +1,21 @@
 Object - field (immutable, each turn different field)
+
+public class Field {
+    
+    private final int size;
+    private final char[][] ground;
+    private final int field;
+    
+    private final int DEFAULT_SIZE = 3;
+    
+    
+    public Field () {
+    
+    
+    
+    }
+
+}
 	size = N
 	char[][] N x N
 	turn = 1
