@@ -1,23 +1,44 @@
 //13. Sparse vector. Create a data type for sparse vectors. Represent a sparse vector by an array of indices (of nonzeros) and a parallel array of the corresponding nonzero values. Assume the indices are in ascending order. Implement the dot product operation.
 
-interface SparseVector ?
-    class SpVint implements SparseVector?
-
-input: 5     1 2 3 4 5  0 56 67 87 567 
+//interface SparseVector ?
+//    class SpVint implements SparseVector?
+//
+//input: 5     1 2 3 4 5  0 56 67 87 567 
 
 public class SparseVector {
 
-    private final int N;         // length of the vector
-    private double[] vector;       // array of vector's components
-
+    private final int length;         // ? length of the vector
+    private int[] values;       // array of vector's components
+    private int[] indexes;       // array of indexes of those components
+    
+    private static final int DEFAULT_LENGTH = 100;
+    private static final int[] DEFAULT_VALUES = {100, 66, 567, 1};
+    private static final int[] DEFAULT_INDEXES = {1, 6, 20, 99};
+    
     // constructors:
-    public SparseVector(int N) {
-        this.N = N;
-        this.data = new double[N];
+    public SparseVector() {
+        this(DEFAULT_LENGTH, DEFAULT_VALUES, DEFAULT_INDEXES);
+
+    }   
+    0
+    public SparseVector(int length, int[] values, int[] indexes) {
+        this.length = length;
+        this.values = values;
+        this.indexes = indexes;
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // create a vector from an array
-    public SparseVector(double[] data) {
+   public SparseVector(double[] data) {
         N = data.length;
 
         // defensive copy so that client can't alter our copy of data[]
@@ -26,8 +47,25 @@ public class SparseVector {
             this.data[i] = data[i];
     }
 
+    public int dotProduct(SparseVector b) {
+        
+        // check if (this.length != b.length) throw new exception..
+        
+        int dot = 0;
+        int indexA = 0;
+        int indexB = 0;
+        for (int i=0; i<this.length; i++) {
+            if (this.indexes[indexA] == i) {
+                indexA++;
+                if (b.indexes[indexB] == i) {
+                    indexB++;
+                    dot += this.values[indexA-1]*b.values[indexB-1];
+                }
+            }
+        }
+    }
    
-   
+    // + check whether right angle? (if dotP=0)
    
     // return the length of the vector
     public int length() {
