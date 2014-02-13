@@ -5,15 +5,18 @@
 //
 //input: 5     1 2 3 4 5  0 56 67 87 567 
 
+package JavaBook;
+import JavaBook.stanfStd.*;
+
 public class SparseVector {
 
     private final int length;         // ? length of the vector
     private int[] values;           // array of vector's components
     private int[] indexes;       // array of indexes of corresponding components
     
-    private static final int DEFAULT_LENGTH = 100;
+    private static final int DEFAULT_LENGTH = 20;
     private static final int[] DEFAULT_VALUES = {100, 66, 567, 1};
-    private static final int[] DEFAULT_INDEXES = {1, 6, 20, 99};
+    private static final int[] DEFAULT_INDEXES = {1, 6, 15, 20};
     
     // constructors:
     public SparseVector() {
@@ -29,18 +32,35 @@ public class SparseVector {
 
     // create sparse vector from an array
     public SparseVector(int[] data) {
-        N = data.length;
-        // defensive copy so that client can't alter our copy of data[]
-        this.values = new int[N];
-        this.indexes = new int[N];
+        this.length = data.length;
+        // sparse vectors with zeros in the end
+        int[] BufferValues = new int[data.length];
+        int[] BufferIndexes = new int[data.length];
         int index = 0;
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < data.length; i++) {
             if (data[i] != 0) {
-                this.values[index] = data[i];
-                this.index[index] = i+1;
+                BufferValues[index] = data[i];
+                BufferIndexes[index] = i+1;
                 index++;
             }
         }
+        
+        // getting rid of zeros in the end
+        // determine where array ends
+        int SparseVectorLength = data.length;
+        for (int j=data.length-1; BufferValues[j] == 0; j--) {
+            SparseVectorLength = j;        
+        }
+        
+        // create arrays with new length, no zeros
+        int[] BufferValuesShort = new int[SparseVectorLength];
+        int[] BufferIndexesShort = new int[SparseVectorLength];
+        for (int j=0; j < SparseVectorLength; j++) {
+            BufferValuesShort[j] = BufferValues[j];
+            BufferIndexesShort[j] = BufferIndexes[j];        
+        }       
+        this.values = BufferValuesShort;
+        this.indexes = BufferIndexesShort;
     }
 
     
@@ -49,9 +69,9 @@ public class SparseVector {
         int[] vector = new int[length];
         int index = 0;
         
-        for (int i=0; i<length; i++) {
+        for (int i=1; (i<=length) && (index < values.length); i++) {
             if (indexes[index] == i) {
-                vector[i] = values[i];
+                vector[i-1] = values[index];
                 index++;
             }
         }
@@ -66,34 +86,35 @@ public class SparseVector {
         int dotSum = 0;
         int indexA = 0;
         int indexB = 0;
-        for (int i=0; i<this.length; i++) {
+        for (int i=1; i<=this.length; i++) {
             if (this.indexes[indexA] == i) {
-                indexA++;
                 if (b.indexes[indexB] == i) {
-                    indexB++;
-                    dot +=  this.values[indexA-1]*b.values[indexB-1];
+                    dotSum +=  this.values[indexA]*b.values[indexB];
                 }
+                indexA++;
+            }
+            if (b.indexes[indexB] == i) {
+                indexB++;
             }
         }
+        return dotSum;
     }
 
-    public int Plus(SparseVector b) {
+    public SparseVector Plus(SparseVector b) {
         int N = this.length;
         if (N != b.length) throw new RuntimeException("Dimensions don't agree");
         
-        int BufferLength = this.values.length+b.values.length;
+        int BufferLength = this.values.length+b.values.length; // max posiible length of sparse vector summing array
         int[] SumValues = new int[BufferLength];
         int[] SumIndexes = new int[BufferLength];
-        SumIndexes[indexSum] =  i;
-
-        
+                
         int indexA = 0;
         int indexB = 0;
         int indexSum = 0;
         boolean newSumValue = false;
         
-        
-        for (int i = 0; i < N; i++) {
+        // creating array with summed values - zeros in the end
+        for (int i = 1; i <= N; i++) {
             if (this.indexes[indexA] == i) {
                 SumValues[indexSum] +=  this.values[indexA];
                 SumIndexes[indexSum] =  i;
@@ -106,20 +127,29 @@ public class SparseVector {
                 indexB++;
                 newSumValue = true;
             }
+            // determines whether we added anything to the current position of the sum vector
             if (newSumValue) {
                 indexSum++;
                 newSumValue = false;
             }
         }
         
-        for (j=BufferLength-1; j>-1; j--) {
-            if (SumValues[j] != 0) {
-                int SumSparseVectorLength = j+1;
-            }
+        // determine where summed array ends
+        int SumSparseVectorLength = BufferLength;
+        for (int j=BufferLength-1; SumValues[j] == 0; j--) {
+                SumSparseVectorLength = j;
         }
         
-        
-        SparseVector Sum = Sparsevector(SumSparseVectorLength, new int[N], new int[N]);
+        // create arrays with new length, no zeros
+        int[] Values = new int[SumSparseVectorLength];
+        int[] Indexes = new int[SumSparseVectorLength];
+        for (int j=0; j < SumSparseVectorLength; j++) {
+            Values[j] = SumValues[j];
+            Indexes[j] = SumIndexes[j];        
+        }
+                
+        // finally create and return corresponding sparse vector        
+        SparseVector Sum = new SparseVector(SumSparseVectorLength, Values, Indexes);
         return Sum;
     }
     
@@ -130,21 +160,33 @@ public class SparseVector {
         return length;
     }
 
-
-   
-   
     // test client
     public static void main(String[] args) {
         
         SparseVector x = new SparseVector();
-        SparseVector y = new SparseVector(0,5,0,0,0,6,7,8,0,0,0,0,0,0,6);
+        int[] a = {1,5,0,0,0,6,7,8,0,0,0,0,0,0,6,6,0,0,0,3};
+        SparseVector y = new SparseVector(a);
 
-        System.out.println("x        =  " + x);
-        System.out.println("y        =  " + y);
-        System.out.println("x + y    =  " + x.plus(y));
-        System.out.println("10x      =  " + x.times(10.0));
-        System.out.println("|x|      =  " + x.magnitude());
-        System.out.println("<x, y>   =  " + x.dot(y));
-        System.out.println("|x - y|  =  " + x.minus(y).magnitude());
+        System.out.println("x is ");
+        StdArrayIO.print(x.RecreateVector());
+        System.out.println("Values of sparse vector x are: ");
+        StdArrayIO.print(x.values);
+        System.out.println("Indexes of sparse vector x are: ");
+        StdArrayIO.print(x.indexes);
+        
+        System.out.println("y is ");
+        StdArrayIO.print(y.RecreateVector());
+        System.out.println("Values of sparse vector y are: ");
+        StdArrayIO.print(y.values);
+        System.out.println("Indexes of sparse vector y are: ");
+        StdArrayIO.print(y.indexes);
+        
+        
+        System.out.println("x + y    =  ");
+        StdArrayIO.print(x.Plus(y).values);
+        System.out.println(" on places: ");
+        StdArrayIO.print(x.Plus(y).indexes);
+        System.out.println("Length of x is =  " + x.length());
+        System.out.println("Dot product of x and y equals " + x.dotProduct(y));
     }
 }

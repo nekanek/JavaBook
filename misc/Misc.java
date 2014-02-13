@@ -1,6 +1,8 @@
 
 package JavaBook.misc;
 import JavaBook.stanfStd.*;
+// package misc;
+// import stanfStd.*;
 
 public class Misc {
 
