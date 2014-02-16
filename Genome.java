@@ -42,7 +42,7 @@ public class Genome {
     private static final char[] DEFAULT_VALUES = {'A', 'T', 'G', 'C','G', 'C','G', 'A'};
     
     private final char[] values;
-    private final int Length; // which is >= Values.length
+    private final int length; // which is >= Values.length
 
     // constructors:
     public Genome() {
@@ -56,8 +56,11 @@ public class Genome {
 	}
 	else {
 	    StdOut.println("Some error msg.");
+	    	// change it to throw exception
+	    this.values = null;
+	    this.length = 0;
 	}
-    
+
     }
     
     // methods
@@ -78,12 +81,12 @@ public class Genome {
 	return true;
     }
     
-    addNucl - добавляет одну букву
-addCodon - добавить кодон
-    
- addNucleotide, nucleotideAt(int i), and addCodon.    
-    
-    
+//    addNucl - добавляет одну букву
+//addCodon - добавить кодон
+//    
+// addNucleotide, nucleotideAt(int i), and addCodon.    
+//    
+//    
     
     
     
@@ -100,7 +103,7 @@ addCodon - добавить кодон
 	
 	// read in some char inputArray
 	
-	Genome testGene = new Genome(inputArray);
+	// Genome testGene = new Genome(inputArray);
 	
 	
 	
@@ -119,69 +122,69 @@ addCodon - добавить кодон
 	
 	
 	
-	// read dna sequence
-	String dna = args[0];
-	
-	int MaxLength = 0;
-	int MaxLengthBuf = 0;
-	int MaxIndex = 0;
-	
-	// palindrome of odd length
-    // check from each symbol i to the left and right	
-	for (int i=1; i<dna.length()-1; i++) {
-		
-		MaxLengthBuf=1;
-		// j - offset to the left or right
-		outerloop:
-		for (int j=1; j<Math.min(i,dna.length()-i); j++) {
-			switch (dna.charAt(i-j)) {
-				case 'A': if (dna.charAt(i+j)=='T') {MaxLengthBuf+=2;break;} 
-							else {break outerloop;}
-				case 'T': if (dna.charAt(i+j)=='A') {MaxLengthBuf+=2;break;} 
-							else {break outerloop;}
-				case 'C': if (dna.charAt(i+j)=='G') {MaxLengthBuf+=2;break;} 
-							else {break outerloop;}
-				case 'G': if (dna.charAt(i+j)=='C') {MaxLengthBuf+=2;break;} 
-							else {break outerloop;}
-				default: {StdOut.print("Symbol "+ dna.charAt(i-j) + " can't be in DNA sequence.\n"); System.exit(0); } 
-			}
-		}
-		
-		if (MaxLength<MaxLengthBuf) {
-			MaxLength = MaxLengthBuf;
-			MaxIndex = i;
-		}
-	}
-	
-	// palindrome of even length
-	for (int i=0; i<dna.length()-1; i++) {
-		MaxLengthBuf=0;
-		
-		// j - offset to the left or right
-		outerloop:
-		for (int j=1; j<Math.min(i+2,dna.length()-i); j++) {
-			switch (dna.charAt(i+1-j)) {
-				case 'A': if (dna.charAt(i+j)=='T') {MaxLengthBuf+=2;break;} 
-							else {break outerloop;}
-				case 'T': if (dna.charAt(i+j)=='A') {MaxLengthBuf+=2;break;} 
-							else {break outerloop;}
-				case 'C': if (dna.charAt(i+j)=='G') {MaxLengthBuf+=2;break;} 
-							else {break outerloop;}
-				case 'G': if (dna.charAt(i+j)=='C') {MaxLengthBuf+=2;break;} 
-							else {break outerloop;}
-				default: {StdOut.print("Symbol "+ dna.charAt(i+1-j) + " can't be in DNA sequence.\n"); System.exit(0); } 
-			}
-		}
-		if (MaxLength<MaxLengthBuf) {
-			MaxLength = MaxLengthBuf;
-			MaxIndex = i+1;
-		}		
-	}	
-	
-	// print result
-	StdOut.print("Maximum palindrome of size "+ MaxLength + " starts at "+ (MaxIndex-(int)MaxLength/2+1) + "' symbol. Palindrome:\n");
-	StdOut.println(dna.substring(MaxIndex-(int)MaxLength/2,MaxIndex-(int)MaxLength/2+MaxLength));
-	
-    }   
+//	// read dna sequence
+//	String dna = args[0];
+//	
+//	int MaxLength = 0;
+//	int MaxLengthBuf = 0;
+//	int MaxIndex = 0;
+//	
+//	// palindrome of odd length
+//    // check from each symbol i to the left and right	
+//	for (int i=1; i<dna.length()-1; i++) {
+//		
+//		MaxLengthBuf=1;
+//		// j - offset to the left or right
+//		outerloop:
+//		for (int j=1; j<Math.min(i,dna.length()-i); j++) {
+//			switch (dna.charAt(i-j)) {
+//				case 'A': if (dna.charAt(i+j)=='T') {MaxLengthBuf+=2;break;} 
+//							else {break outerloop;}
+//				case 'T': if (dna.charAt(i+j)=='A') {MaxLengthBuf+=2;break;} 
+//							else {break outerloop;}
+//				case 'C': if (dna.charAt(i+j)=='G') {MaxLengthBuf+=2;break;} 
+//							else {break outerloop;}
+//				case 'G': if (dna.charAt(i+j)=='C') {MaxLengthBuf+=2;break;} 
+//							else {break outerloop;}
+//				default: {StdOut.print("Symbol "+ dna.charAt(i-j) + " can't be in DNA sequence.\n"); System.exit(0); } 
+//			}
+//		}
+//		
+//		if (MaxLength<MaxLengthBuf) {
+//			MaxLength = MaxLengthBuf;
+//			MaxIndex = i;
+//		}
+//	}
+//	
+//	// palindrome of even length
+//	for (int i=0; i<dna.length()-1; i++) {
+//		MaxLengthBuf=0;
+//		
+//		// j - offset to the left or right
+//		outerloop:
+//		for (int j=1; j<Math.min(i+2,dna.length()-i); j++) {
+//			switch (dna.charAt(i+1-j)) {
+//				case 'A': if (dna.charAt(i+j)=='T') {MaxLengthBuf+=2;break;} 
+//							else {break outerloop;}
+//				case 'T': if (dna.charAt(i+j)=='A') {MaxLengthBuf+=2;break;} 
+//							else {break outerloop;}
+//				case 'C': if (dna.charAt(i+j)=='G') {MaxLengthBuf+=2;break;} 
+//							else {break outerloop;}
+//				case 'G': if (dna.charAt(i+j)=='C') {MaxLengthBuf+=2;break;} 
+//							else {break outerloop;}
+//				default: {StdOut.print("Symbol "+ dna.charAt(i+1-j) + " can't be in DNA sequence.\n"); System.exit(0); } 
+//			}
+//		}
+//		if (MaxLength<MaxLengthBuf) {
+//			MaxLength = MaxLengthBuf;
+//			MaxIndex = i+1;
+//		}		
+//	}	
+//	
+//	// print result
+//	StdOut.print("Maximum palindrome of size "+ MaxLength + " starts at "+ (MaxIndex-(int)MaxLength/2+1) + "' symbol. Palindrome:\n");
+//	StdOut.println(dna.substring(MaxIndex-(int)MaxLength/2,MaxIndex-(int)MaxLength/2+MaxLength));
+//	
+      }   
 
-}
+}    
