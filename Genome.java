@@ -71,7 +71,8 @@ public class Genome {
 	    return true;
 	}
 	else {
-	    StdOut.println("not nucleotide (checking input char).");
+	    String s = Character.toString(inputChar);
+	    StdOut.println("not nucleotide (checking input char)." + s);
 	    return false;
 	}
     }
@@ -168,8 +169,9 @@ public class Genome {
 	Genome defaultG = new Genome();
 	
 	StdOut.println("Inputed array: "+ inputG.toString() + " or another method: " + toString(inputG));
-	StdOut.println("Default array: "+ defaultG.toString() + " (or with another method: " + toString(defaultG) + ").");	
-	StdOut.println("After adding A to input: "+ inputG.addNucl('A') + " and to default: " + defaultG.addNucl('A') );
+	StdOut.println("Default array: "+ defaultG.toString() + " (or with another method: " + toString(defaultG) + ").");
+	char a = 'A';
+	StdOut.println("After adding A to input: "+ inputG.addNucl(a) + " and to default: " + defaultG.addNucl(a) );
 	char[] codon = {'T', 'G', 'T'};	
 	StdOut.println("After adding codon TGT to input: "+ inputG.addCodon(codon) + " and to default: " + defaultG.addCodon(codon) );
 	StdOut.println("In default gene nucleotide at position 3 is: "+ defaultG.nucleotideAt(3) );
