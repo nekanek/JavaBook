@@ -66,16 +66,13 @@ public class Genome {
     }
 
     public Genome addCodon (char[] codon) {
-        if (checkArray(codon)) {
-            Genome genomeWithCodon = new Genome(this.values, this.endIndex);
-            for (int i = 0; i < codon.length; i++) {
-                genomeWithCodon = this.addNucl(codon[i]);
-            }
-            return genomeWithCodon;
-        } else {
-            StdOut.println("Adding codon failed.");
-            return this; // yeah, exception needed ..or msg should b like "no changes were made"
+        if (codon.length != 3) {
+            throw new RuntimeException("Wrong codon length of " + codon.length);
         }
+        for (int i = 0; i < codon.length; i++) {
+            addNucl(codon[i]);
+        }
+        return this;
     }
 
     public Genome addNucl (char nucleotide) {
