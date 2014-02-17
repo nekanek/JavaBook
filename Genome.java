@@ -1,19 +1,7 @@
 /*
-3.1.31. Complemented palindrome detector. In DNA sequence analysis, a complemented palindrome is a string equal to its reverse complement. Adenine (A) and Thymine (T) are complements, as are Cytosine (C) 
-and Guanine (G). For example, ACGGT is a complement palindrome. Such sequences act as transcription-binding sites and are associated with gene amplification and genetic instability. Given a text input of N characters, 
-find the longest complemented palindrome that is a substring of the text. For example, if the text is GACACGGTTTTA then the longest complemented palindrome is ACGGT. Hint: consider each letter as the center of a 
-possible palindrome of odd length, then consider each pair of letters as the center of a possible palindrome of even length.
-
-N: another sequences to check: GACACGGTTTT(AGACACGGTGTCT)TA
-GACA(AGACACGTGTCT)CGGTTTT(AGACACGTGTCTAGACACGTGTCT)TATTTTT(AGACACGTGTCTGAGACACGTGTCT)
-GACAAGACACGTGTCTCGGTTTT(AGACACGTGTCTAGACACGTGTCT)TATTTTT(AGACACGTGTCTGAGACACGTGTCT)
-GACAAGACACGTGTCTCGGTTTTAGACACGTGTCTAGGTGTCTTATTTTT(AGACACGTGTCTAGACACGTGTCT)
-GACAAGACACGTGTCTCGGTTTTTTTAGACACGTGTCTAGACACGTGTCTTTTTATTTTTAGACACGTGTCTGAGACACGTGTCT
-GACAAGACACGTGTCTCGGTTTTAGACACGTGTCTAGACACGTGTCTTATTTTTAGACACGTGTCTGAGACACGTGTCT
-
+3.3.14. 
 Genome. Implement a data type to store the genome of an organism. 
-Biologists often abstract away the genome to a sequence of nucleotides (A, C, G, or T). The data type should support the 
-method addNucleotide, nucleotideAt(int i), and addCodon. 
+Biologists often abstract away the genome to a sequence of nucleotides (A, C, G, or T). The data type should support the
 check that only legal nucleotides are added, can change to more time or memory efficient implementation without affecting client.
 
     StringGenome.java has one instance variable of type String. It implements addNucleotide with string concatenation. Each method call takes time proportional to the size of the current genome. Not practical spacewise either for large genomes since nucleotide is stored as a 16-bit char.
@@ -22,16 +10,8 @@ Genome.java implements a genome as an array of characters. The size of the array
     
     CompactGenome.java implements a genome as boolean array. We need to use two bits per nucleotide since there are 4 different nucleotides. As in the previous implementation, we use a dynamic array with repeated doubling. Now, each nucleotide consumes 2 bits of storage (instead of 16). 
 битовые операции используются для того чтобы хранить 4 двухбитовых значения. для модификации отдельных значений нужно применять битовые операции над типом int. типа прочитать первые два бита, изменить биты 4 и 5..
-    
-    
-Забавно, что в creative 14 вариант решения compact genome - неверный. 
-Точнее он работает, но неверно то, что о нём пишет автор. Там далеко не 2 бита на букву, а те же самые 16. Я не помню, ты ведь проходила битовые операции над целыми числами? 
-А то я бы предлжил правильно перепилить этот пример, чтобы он задействовал лишь честные 2 бита на букву. 
-Могу объяснить подробнее, как это сделать.
 
-все символы, без проверки на кодонность
-addNucl - добавляет одну букву
-addCodon - добавить кодон
+
 */
 package JavaBook;
 import JavaBook.stanfStd.*;
@@ -41,8 +21,8 @@ public class Genome {
     private static final char[] NUCLEOTID_VALUES = {'A', 'T', 'G', 'C'};
     private static final char[] DEFAULT_VALUES = {'A', 'T', 'G', 'C','G', 'C','G', 'A'};
     
-    private final char[] values;
-    private final int length; // which is >= Values.length
+    private char[] values;
+    private int endIndex; // index of the last value in array (since array length can b grtr than the number of nucleotides in it) 
 
     // constructors:
     public Genome() {
@@ -50,24 +30,42 @@ public class Genome {
     }   
     
     public Genome(char[] values) {
+	this(values, values.length-1);
+//        if (checkArray(values)) {
+//	    // should do defensive copy i guess
+//	    this.values = values;
+//	    this.endIndex = values.length-1;
+//	}
+//	else {
+//	    StdOut.println("Some error msg.");
+//	    	// change it to throw exception
+//	    this.values = null;
+//	    this.endIndex = 0;
+//	}
+
+    }
+ 
+    public Genome(char[] values, int endIndex) {
         if (checkArray(values)) {
-	    this.values = values;
-	    this.length = 2*values.length;
+	    this.values = values; // should do defensive copy i guess (and add Character.toUpperCase() )
+	    this.endIndex = endIndex;
 	}
 	else {
 	    StdOut.println("Some error msg.");
 	    	// change it to throw exception
 	    this.values = null;
-	    this.length = 0;
+	    this.endIndex = 0;
 	}
 
-    }
-    
+    }    
     // methods
     
     private static boolean isNucleotide (char inputChar) {
 	for (char Ch : NUCLEOTID_VALUES) {
-	    if (inputChar == Ch) return true;
+	    // if (Character.toUpperCase(inputChar) == Ch) {
+	    if (inputChar == Ch) {
+		return true;
+	    }
 	}
 	return false;
     }
@@ -80,111 +78,94 @@ public class Genome {
 	}
 	return true;
     }
+
+    public Genome addCodon (char[] codon) {
+	if (checkArray(codon)) {
+	    Genome genomeWithCodon = new Genome(this.values, this.endIndex);
+	    for (int i = 0; i < codon.length; i++) {
+		genomeWithCodon = this.addNucl(codon[i]);
+	    }
+	    return genomeWithCodon;
+	}
+	else {
+	    StdOut.println("Some error msg.");
+	    return this; // yeah, exception needed ..or msg should b like "no changes were made"
+	} 	
+    }
     
-//    addNucl - добавляет одну букву
-//addCodon - добавить кодон
-//    
-// addNucleotide, nucleotideAt(int i), and addCodon.    
-//    
-//    
+    public Genome addNucl (char nucleotide) {
+	if (isNucleotide(nucleotide)) {
+	    if (this.values.length-1 == this.endIndex) { 
+		Genome newGenome = this.increaseLength();
+		newGenome.values[++newGenome.endIndex] = nucleotide;
+		return newGenome;
+	    }
+	    this.values[++this.endIndex] = nucleotide;
+	    return this;
+	}
+	StdOut.println("Some error msg."); // exception?
+	return this; // yeah, exception needed ..or msg should b like "no changes were made"
+    }
     
+    @Override
+    public String toString () {
+	String out = "";
+	for (int i = 0; i <= this.endIndex; i++) {
+	    out += this.values[i];
+	}
+	return out;
+    }    
     
+    public static String toString (Genome input) {
+	String out = "";
+	for (int i = 0; i <= input.endIndex; i++) {
+	    out += input.values[i];
+	}
+	return out;
+    } 
     
-    
-    
-    
-    
-    
-    
-    
-    
+    private Genome increaseLength () {
+	char[] increasedArray = copyChArray(this.values);
+	Genome newGenome = new Genome(increasedArray, this.endIndex);   
+	return newGenome;
+    }
+
+    // could possibly use StdArraysIO instead
+    private static char[] copyChArray (char[] original) { 
+	char[] newArray = new char[2*original.length];   
+	    for (int i = 0; i < original.length; i++) {
+		newArray[i] = original[i];
+	    }
+	return newArray;
+    }
+ 
+    public char nucleotideAt (int i) {
+	if (i <= this.endIndex) {
+	    return this.values[i];
+	    }
+	else {
+	StdOut.println("Some error msg."); // change to exception not to return char
+	return ' ';
+	}
+    }    
     
     public static void main(String[] args) {
 	
-	// read in some char inputArray
+    // read dna sequence
+	String dna = args[0];
+	char[] input = new char[dna.length()];
+	for (int i = 0; i < dna.length(); i++) {
+	    input[i]=dna.charAt(i);
+	}
+	Genome inputG = new Genome(input);
+	Genome defaultG = new Genome();
 	
-	// Genome testGene = new Genome(inputArray);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-//	// read dna sequence
-//	String dna = args[0];
-//	
-//	int MaxLength = 0;
-//	int MaxLengthBuf = 0;
-//	int MaxIndex = 0;
-//	
-//	// palindrome of odd length
-//    // check from each symbol i to the left and right	
-//	for (int i=1; i<dna.length()-1; i++) {
-//		
-//		MaxLengthBuf=1;
-//		// j - offset to the left or right
-//		outerloop:
-//		for (int j=1; j<Math.min(i,dna.length()-i); j++) {
-//			switch (dna.charAt(i-j)) {
-//				case 'A': if (dna.charAt(i+j)=='T') {MaxLengthBuf+=2;break;} 
-//							else {break outerloop;}
-//				case 'T': if (dna.charAt(i+j)=='A') {MaxLengthBuf+=2;break;} 
-//							else {break outerloop;}
-//				case 'C': if (dna.charAt(i+j)=='G') {MaxLengthBuf+=2;break;} 
-//							else {break outerloop;}
-//				case 'G': if (dna.charAt(i+j)=='C') {MaxLengthBuf+=2;break;} 
-//							else {break outerloop;}
-//				default: {StdOut.print("Symbol "+ dna.charAt(i-j) + " can't be in DNA sequence.\n"); System.exit(0); } 
-//			}
-//		}
-//		
-//		if (MaxLength<MaxLengthBuf) {
-//			MaxLength = MaxLengthBuf;
-//			MaxIndex = i;
-//		}
-//	}
-//	
-//	// palindrome of even length
-//	for (int i=0; i<dna.length()-1; i++) {
-//		MaxLengthBuf=0;
-//		
-//		// j - offset to the left or right
-//		outerloop:
-//		for (int j=1; j<Math.min(i+2,dna.length()-i); j++) {
-//			switch (dna.charAt(i+1-j)) {
-//				case 'A': if (dna.charAt(i+j)=='T') {MaxLengthBuf+=2;break;} 
-//							else {break outerloop;}
-//				case 'T': if (dna.charAt(i+j)=='A') {MaxLengthBuf+=2;break;} 
-//							else {break outerloop;}
-//				case 'C': if (dna.charAt(i+j)=='G') {MaxLengthBuf+=2;break;} 
-//							else {break outerloop;}
-//				case 'G': if (dna.charAt(i+j)=='C') {MaxLengthBuf+=2;break;} 
-//							else {break outerloop;}
-//				default: {StdOut.print("Symbol "+ dna.charAt(i+1-j) + " can't be in DNA sequence.\n"); System.exit(0); } 
-//			}
-//		}
-//		if (MaxLength<MaxLengthBuf) {
-//			MaxLength = MaxLengthBuf;
-//			MaxIndex = i+1;
-//		}		
-//	}	
-//	
-//	// print result
-//	StdOut.print("Maximum palindrome of size "+ MaxLength + " starts at "+ (MaxIndex-(int)MaxLength/2+1) + "' symbol. Palindrome:\n");
-//	StdOut.println(dna.substring(MaxIndex-(int)MaxLength/2,MaxIndex-(int)MaxLength/2+MaxLength));
-//	
+	StdOut.println("Inputed array: "+ inputG.toString() + " or another method: " + toString(inputG));
+	StdOut.println("Default array: "+ defaultG.toString() + " (or with another method: " + toString(defaultG) + ").");	
+	StdOut.println("After adding small a to input: "+ inputG.addNucl('a') + " and to default: " + defaultG.addNucl('a') );
+	char[] codon = {'T', 'G', 't'};	
+	StdOut.println("After adding codon TGT to input: "+ inputG.addCodon(codon) + " and to default: " + defaultG.addCodon(codon) );
+	StdOut.println("In default gene nucleotide at position 3 is: "+ defaultG.nucleotideAt(3) );
       }   
 
 }    
