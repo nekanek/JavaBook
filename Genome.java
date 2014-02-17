@@ -51,7 +51,7 @@ public class Genome {
 	    this.endIndex = endIndex;
 	}
 	else {
-	    StdOut.println("Some error msg.");
+	    StdOut.println("trying to create genome failed.");
 	    	// change it to throw exception
 	    this.values = null;
 	    this.endIndex = 0;
@@ -61,18 +61,25 @@ public class Genome {
     // methods
     
     private static boolean isNucleotide (char inputChar) {
-	for (char Ch : NUCLEOTID_VALUES) {
+	// for (char ch : NUCLEOTID_VALUES) {
 	    // if (Character.toUpperCase(inputChar) == Ch) {
-	    if (inputChar == Ch) {
-		return true;
-	    }
+//	    if (inputChar == ch) {
+//		return true;
+//	    }
+	// }
+	if (inputChar == 'A' || inputChar == 'T' || inputChar == 'C' || inputChar == 'G' ) {
+	    return true;
 	}
-	return false;
+	else {
+	    StdOut.println("not nucleotide (checking input char).");
+	    return false;
+	}
     }
     
     private static boolean checkArray (char[] inputArray) {
 	for (int i = 0; i < inputArray.length; i++) {
 	    if (!isNucleotide(inputArray[i])) {
+		StdOut.println("not nucleotide in checking array.");
 		return false;
 	    }
 	}
@@ -88,7 +95,7 @@ public class Genome {
 	    return genomeWithCodon;
 	}
 	else {
-	    StdOut.println("Some error msg.");
+	    StdOut.println("Adding codon failed.");
 	    return this; // yeah, exception needed ..or msg should b like "no changes were made"
 	} 	
     }
@@ -103,7 +110,7 @@ public class Genome {
 	    this.values[++this.endIndex] = nucleotide;
 	    return this;
 	}
-	StdOut.println("Some error msg."); // exception?
+	StdOut.println("Adding nucleotide failed cause it's not nucleotide char."); // exception?
 	return this; // yeah, exception needed ..or msg should b like "no changes were made"
     }
     
@@ -162,8 +169,8 @@ public class Genome {
 	
 	StdOut.println("Inputed array: "+ inputG.toString() + " or another method: " + toString(inputG));
 	StdOut.println("Default array: "+ defaultG.toString() + " (or with another method: " + toString(defaultG) + ").");	
-	StdOut.println("After adding small a to input: "+ inputG.addNucl('a') + " and to default: " + defaultG.addNucl('a') );
-	char[] codon = {'T', 'G', 't'};	
+	StdOut.println("After adding A to input: "+ inputG.addNucl('A') + " and to default: " + defaultG.addNucl('A') );
+	char[] codon = {'T', 'G', 'T'};	
 	StdOut.println("After adding codon TGT to input: "+ inputG.addCodon(codon) + " and to default: " + defaultG.addCodon(codon) );
 	StdOut.println("In default gene nucleotide at position 3 is: "+ defaultG.nucleotideAt(3) );
       }   
