@@ -110,18 +110,20 @@ public class Genome {
     }
 
     private Genome increaseLength () {
-        char[] increasedArray = copyChArray(this.values);
-        Genome newGenome = new Genome(increasedArray, this.endIndex);
-        return newGenome;
+        char[] increasedArray = new char[this.values.length * 2];
+        copyChArray(this.values, increasedArray);
+        this.values = increasedArray;
+        return this;
     }
 
     // could possibly use StdArraysIO instead
-    private static char[] copyChArray (char[] original) {
-        char[] newArray = new char[2*original.length];
-        for (int i = 0; i < original.length; i++) {
-            newArray[i] = original[i];
+    private static void copyChArray (char[] src, char[] dst) {
+        if (src.length > dst.length) {
+            throw new RuntimeException("Not enough space in dst");
         }
-        return newArray;
+        for (int i = 0; i < src.length; i++) {
+            dst[i] = src[i];
+        }
     }
 
     public char nucleotideAt (int i) {
