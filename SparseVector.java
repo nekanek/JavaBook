@@ -219,11 +219,9 @@ public class SparseVector {
                 int Length = i + 1;
                 int[] Values = new int[Length];
 
-                int[] Recreated = new int[this.length];
-                Recreated = this.RecreateVector();
-
-                for (int j=0; j < this.length; j++) {
-                    Values[j] = Recreated[j];       
+                int k = 0;
+                for (int j : this.indexes) {
+                    Values[j] = Values[k++];      
                 }
                 
                 Values[i] = value;
