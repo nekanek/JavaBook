@@ -14,9 +14,9 @@ public class SparseVector {
     private int[] values;           // array of vector's components
     private int[] indexes;       // array of indexes of corresponding components
     
-    private static final int DEFAULT_LENGTH = 1;
-    private static final int[] DEFAULT_VALUES = {1};
-    private static final int[] DEFAULT_INDEXES = {0};
+    private static final int DEFAULT_LENGTH = 0;
+    private static final int[] DEFAULT_VALUES = {};
+    private static final int[] DEFAULT_INDEXES = {};
     
     // constructors:
     public SparseVector() {
