@@ -87,14 +87,18 @@ public class SparseVector {
         int indexA = 0;
         int indexB = 0;
         for (int i=0; i<this.length; i++) {
-            if (this.indexes[indexA] == i) {
+            if (this.indexes[indexA] == i ) {
                 if (b.indexes[indexB] == i) {
                     dotSum +=  this.values[indexA]*b.values[indexB];
                 }
-                indexA++;
+                if (indexA != this.values.length-1) {
+                    indexA++;    
+                }
             }
             if (b.indexes[indexB] == i) {
-                indexB++;
+                if (indexB != b.values.length-1) {
+                    indexB++;    
+                }
             }
         }
         return dotSum;
@@ -115,16 +119,21 @@ public class SparseVector {
         
         // creating array with summed values - zeros in the end
         for (int i = 0; i < N; i++) {
+            // if (indexA < (N-1)) {
             if (this.indexes[indexA] == i) {
                 SumValues[indexSum] +=  this.values[indexA];
                 SumIndexes[indexSum] =  i;
-                indexA++;
+                if (indexA != this.values.length-1) {
+                    indexA++;    
+                }
                 newSumValue = true;
             }
             if (b.indexes[indexB] == i) {
                 SumValues[indexSum] +=  b.values[indexB];
                 SumIndexes[indexSum] =  i;
-                indexB++;
+                if (indexB != b.values.length-1) {
+                    indexB++;    
+                }
                 newSumValue = true;
             }
             // determines whether we added anything to the current position of the sum vector
@@ -186,22 +195,44 @@ public class SparseVector {
             throw new RuntimeException("Illegal index.");
         }
         else {
-            // create arrays with new length
-            int Length = values.length + 1;
-            int[] Values = new int[Length];
-            int[] Indexes = new int[Length];
-            
-            for (int j=0; j < values.length; j++) {
-                Values[j] = values[j];
-                Indexes[j] = indexes[j];        
+
+            // create array with new length
+            if (i < this.length) {
+                int Length = values.length + 1;
+                int[] Values = new int[Length];
+                int[] Indexes = new int[Length];
+
+                for (int j=0; j < values.length; j++) {
+                    Values[j] = values[j];
+                    Indexes[j] = indexes[j];        
+                }
+                
+                Values[Length - 1] = value;
+                Indexes[Length - 1] = i;
+                        
+                // finally create and return corresponding sparse vector        
+                SparseVector addValue = new SparseVector(this.length + 1, Values, Indexes);
+                return addValue;                
             }
-            
-            Values[Length] = value;
-            Indexes[Length] = i;
-                    
-            // finally create and return corresponding sparse vector        
-            SparseVector addValue = new SparseVector(Length, Values, Indexes);
-            return addValue;
+
+            else {
+                int Length = i + 1;
+                int[] Values = new int[Length];
+
+                int[] Recreated = new int[this.length];
+                Recreated = this.RecreateVector();
+
+                for (int j=0; j < this.length; j++) {
+                    Values[j] = Recreated[j];       
+                }
+                
+                Values[i] = value;
+                        
+                // finally create and return corresponding sparse vector        
+                SparseVector addValue = new SparseVector(Values);
+                return addValue;                
+            }
+
         }
     }
     // test client
@@ -219,7 +250,7 @@ public class SparseVector {
         StdArrayIO.print(x.values);
         System.out.println("Indexes of sparse vector x are: ");
         StdArrayIO.print(x.indexes);
-        
+        System.out.println("Length of sparse vector x is: " + x.length());      
         System.out.println("y is ");
         StdArrayIO.print(y.RecreateVector());
         System.out.println("Values of sparse vector y are: ");
@@ -241,5 +272,9 @@ public class SparseVector {
         SparseVector z = x.addValue(19, 5);
         System.out.println("After adding 5 to position 19, x is ");
         StdArrayIO.print(z.RecreateVector());
+
+        SparseVector w = x.addValue(22, 77);
+        System.out.println("After adding 77 to position 22, x is ");
+        StdArrayIO.print(w.RecreateVector());
     }
 }
