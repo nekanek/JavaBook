@@ -7,7 +7,7 @@ import JavaBook.stanfStd.*;
 
 public interface Genome {
 
-    // public  void addCodon (char[] codon) {
+    // public void addCodon (char[] codon) {
     //     if (codon.length != 3) {
     //         throw new RuntimeException("Wrong codon length of " + codon.length);
     //     }

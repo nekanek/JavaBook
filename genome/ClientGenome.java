@@ -17,9 +17,11 @@ public class ClientGenome {
         CharGenome inputG = new CharGenome(input);
 
         StdOut.println("Inputed array: "+ inputG.toString() + " or another method: " + CharGenome.toString(inputG));
-        StdOut.println("After adding A to input: "+ inputG.addNucl('A') );
+        inputG.addNucl('A') ;
+        StdOut.println("After adding A to input: "+ inputG.toString());
         char[] codon = {'T', 'G', 'T'};
-        StdOut.println("After adding codon TGT to input: "+ inputG.addCodon(codon));
+        inputG.addCodon(codon);
+        StdOut.println("After adding codon TGT to input: "+ inputG.toString());
         StdOut.println("In input gene nucleotide at position 3 is: "+ inputG.nucleotideAt(3) );
     }
 
