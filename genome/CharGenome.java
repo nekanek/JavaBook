@@ -49,29 +49,42 @@ public class CharGenome implements Genome {
         return true;
     }
 
-    public CharGenome addCodon (char[] codon) {
+    public void addCodon (char[] codon) {
         if (codon.length != 3) {
             throw new RuntimeException("Wrong codon length of " + codon.length);
         }
-        for (int i = 0; i < codon.length; i++) {
-            addNucl(codon[i]);
+        else {
+            for (int i = 0; i < codon.length; i++) {
+                addNucl(codon[i]);
+            }
         }
-        return this;
     }
 
-    public CharGenome addNucl (char nucleotide) {
+    public void addNucl (char nucleotide) {
         if (isNucleotide(nucleotide)) {
             if (this.values.length-1 == this.endIndex) { 
-                CharGenome newCharGenome = this.increaseLength();
-                newCharGenome.values[++newCharGenome.endIndex] = nucleotide;
-                return newCharGenome;
+                // CharGenome newCharGenome = this.increaseLength();
+                this.increaseLength();
+                this.values[++this.endIndex] = nucleotide;
+                // return this;
             }
-            this.values[++this.endIndex] = nucleotide;
-            return this;
+            else {
+                this.values[++this.endIndex] = nucleotide;
+            }
         }
-        StdOut.println("Adding nucleotide failed cause it's not nucleotide char."); // exception?
-        return this; // yeah, exception needed ..or msg should b like "no changes were made"
+        else {
+            StdOut.println("Adding nucleotide failed cause it's not nucleotide char."); // exception?
+        }
+        // return this; 
     }
+
+    private void increaseLength () {
+        char[] increasedArray = new char[this.values.length * 2];
+        copyChArray(this.values, increasedArray);
+        this.values = increasedArray;
+        // return this;
+    }
+
 
     @Override
     public String toString () {
@@ -88,13 +101,6 @@ public class CharGenome implements Genome {
             out += input.values[i];
         }
         return out;
-    }
-
-    public CharGenome increaseLength () {
-        char[] increasedArray = new char[this.values.length * 2];
-        copyChArray(this.values, increasedArray);
-        this.values = increasedArray;
-        return this;
     }
 
     // could possibly use StdArraysIO instead
@@ -127,13 +133,15 @@ public class CharGenome implements Genome {
         char[] input = {'T','G','G','A','C','A','G','A','A','C','T','T'};
         CharGenome inputG = new CharGenome(input);
         // char[] default = new char{'A', 'T', 'G', 'C','G', 'C','G', 'A'};
-        CharGenome defaultG = new CharGenome();
+        // CharGenome defaultG = new CharGenome();
 
         StdOut.println("Inputed array: "+ inputG.toString() + " or another method: " + toString(inputG));
         // StdOut.println("Default array: "+ defaultG.toString() + " (or with another method: " + toString(defaultG) + ").");
-        StdOut.println("After adding A to input: "+ inputG.addNucl('A'));
+        inputG.addNucl('A');
+        StdOut.println("After adding A to input: "+ inputG.toString());
         char[] codon = {'T', 'G', 'T'};
-        StdOut.println("After adding codon TGT to input: "+ inputG.addCodon(codon));
+        inputG.addCodon(codon);
+        StdOut.println("After adding codon TGT to input: "+ inputG.toString());
         StdOut.println("In input gene nucleotide at position 3 is: "+ inputG.nucleotideAt(3) );
     }
 }
