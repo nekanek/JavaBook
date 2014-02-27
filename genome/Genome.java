@@ -19,5 +19,13 @@ public abstract class Genome {
     public abstract void addNucl (char nucleotide);
     public abstract char nucleotideAt (int i);
     public abstract String toString ();
+    public static String toString (Genome input) {
+        return input.toString();
+    }
+
     protected abstract void increaseLength ();
+
+    protected static boolean isNucleotide (char inputChar) {
+        return (inputChar == 'A' || inputChar == 'T' || inputChar == 'C' || inputChar == 'G');
+    }
 }

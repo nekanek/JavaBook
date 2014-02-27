@@ -7,7 +7,6 @@ import JavaBook.stanfStd.*;
 
 public class CharGenome extends Genome {
 
-
     // constructors:
     public CharGenome() {
         this(DEFAULT_VALUES);
@@ -28,38 +27,8 @@ public class CharGenome extends Genome {
             this.endIndex = 0;
         }
     }
-    // methods
 
-    public static boolean isNucleotide (char inputChar) {
-        if (inputChar == 'A' || inputChar == 'T' || inputChar == 'C' || inputChar == 'G' ) {
-            return true;
-        } else {
-            StdOut.println("not nucleotide (checking input char " + Character.toString(inputChar) + ").");
-            return false;
-        }
-    }
-
-    private static boolean checkArray (char[] inputArray) {
-        for (int i = 0; i < inputArray.length; i++) {
-            if (!isNucleotide(inputArray[i])) {
-                StdOut.println("not nucleotide in checking array.");
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public void addCodon (char[] codon) {
-        if (codon.length != 3) {
-            throw new RuntimeException("Wrong codon length of " + codon.length);
-        }
-        else {
-            for (int i = 0; i < codon.length; i++) {
-                addNucl(codon[i]);
-            }
-        }
-    }
-
+    @Override
     public void addNucl (char nucleotide) {
         if (isNucleotide(nucleotide)) {
             if (this.values.length-1 == this.endIndex) { 
@@ -75,16 +44,17 @@ public class CharGenome extends Genome {
         else {
             StdOut.println("Adding nucleotide failed cause it's not nucleotide char."); // exception?
         }
-        // return this; 
     }
 
-    protected void increaseLength () {
-        char[] increasedArray = new char[this.values.length * 2];
-        copyChArray(this.values, increasedArray);
-        this.values = increasedArray;
-        // return this;
+    @Override
+    public char nucleotideAt (int i) {
+        if (i <= this.endIndex) {
+            return this.values[i];
+        } else {
+            StdOut.println("Some error msg."); // change to exception not to return char
+            return ' ';
+        }
     }
-
 
     @Override
     public String toString () {
@@ -95,12 +65,10 @@ public class CharGenome extends Genome {
         return out;
     }
 
-    public static String toString (CharGenome input) {
-        String out = "";
-        for (int i = 0; i <= input.endIndex ; i++) {
-            out += input.values[i];
-        }
-        return out;
+    protected void increaseLength () {
+        char[] increasedArray = new char[this.values.length * 2];
+        copyChArray(this.values, increasedArray);
+        this.values = increasedArray;
     }
 
     // could possibly use StdArraysIO instead
@@ -113,15 +81,16 @@ public class CharGenome extends Genome {
         }
     }
 
-    public char nucleotideAt (int i) {
-        if (i <= this.endIndex) {
-            return this.values[i];
-        } else {
-            StdOut.println("Some error msg."); // change to exception not to return char
-            return ' ';
+    private static boolean checkArray (char[] inputArray) {
+        for (int i = 0; i < inputArray.length; i++) {
+            if (!isNucleotide(inputArray[i])) {
+                StdOut.println("not nucleotide in checking array.");
+                return false;
+            }
         }
+        return true;
     }
-    
+
     private static char[] NUCLEOTID_VALUES = {'A', 'T', 'G', 'C'};
     private static char[] DEFAULT_VALUES = {};
 
