@@ -28,6 +28,10 @@ public class CharGenome extends Genome {
         }
     }
 
+    public CharGenome(String values) {
+        this(values.toUpperCase().toCharArray());
+    }
+
     @Override
     public void addNucl (char nucleotide) {
         if (isNucleotide(nucleotide)) {

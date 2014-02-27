@@ -8,13 +8,7 @@ import JavaBook.stanfStd.*;
 public class ClientGenome {
 
     public static void main(String[] args) {
-        // read dna sequence
-        String dna = args[0];
-        char[] input = new char[dna.length()];
-        for (int i = 0; i < dna.length(); i++) {
-            input[i]=dna.charAt(i);
-        }
-        Genome inputG = new CharGenome(input);
+        Genome inputG = new CharGenome(dna);
 
         StdOut.println("Inputed array: "+ inputG.toString() + " or another method: " + CharGenome.toString(inputG));
         inputG.addNucl('A') ;
