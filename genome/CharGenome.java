@@ -5,7 +5,7 @@ Genome.java implements a genome as an array of characters. The size of the array
 package JavaBook.genome;
 import JavaBook.stanfStd.*;
 
-public class CharGenome implements Genome {
+public class CharGenome extends Genome {
 
 
     // constructors:
@@ -78,7 +78,7 @@ public class CharGenome implements Genome {
         // return this; 
     }
 
-    private void increaseLength () {
+    protected void increaseLength () {
         char[] increasedArray = new char[this.values.length * 2];
         copyChArray(this.values, increasedArray);
         this.values = increasedArray;
