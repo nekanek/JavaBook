@@ -14,7 +14,7 @@ public class ClientGenome {
         for (int i = 0; i < dna.length(); i++) {
             input[i]=dna.charAt(i);
         }
-        CharGenome inputG = new CharGenome(input);
+        Genome inputG = new CharGenome(input);
 
         StdOut.println("Inputed array: "+ inputG.toString() + " or another method: " + CharGenome.toString(inputG));
         inputG.addNucl('A') ;
