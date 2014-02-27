@@ -8,7 +8,15 @@ import JavaBook.stanfStd.*;
 public class ClientGenome {
 
     public static void main(String[] args) {
-        Genome inputG = new CharGenome(dna);
+        // read dna sequence
+        int mode = Integer.parseInt(args[0]);
+        String dna = args[1];
+        Genome inputG;
+        if (mode == 0) {
+            inputG = new CharGenome(dna);
+        } else {
+            inputG = new CompactGenome(dna);
+        }
 
         StdOut.println("Inputed array: "+ inputG.toString() + " or another method: " + CharGenome.toString(inputG));
         inputG.addNucl('A') ;
