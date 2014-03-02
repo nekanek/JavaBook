@@ -26,6 +26,11 @@ public abstract class Genome {
     protected abstract void increaseLength ();
 
     protected static boolean isNucleotide (char inputChar) {
+        if (!Character.isUpperCase(inputChar)) {
+            inputChar = Character.toUpperCase(inputChar);
+        }
         return (inputChar == 'A' || inputChar == 'T' || inputChar == 'C' || inputChar == 'G');
     }
+    
+
 }

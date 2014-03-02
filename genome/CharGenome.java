@@ -74,7 +74,17 @@ public class CharGenome extends Genome {
         copyChArray(this.values, increasedArray);
         this.values = increasedArray;
     }
-
+    
+    private static boolean checkArray (char[] inputArray) {
+    for (int i = 0; i < inputArray.length; i++) {
+        if (!isNucleotide(inputArray[i])) {
+            StdOut.println("not nucleotide in checking array.");
+            return false;
+        }
+    }
+    return true;
+    }
+    
     // could possibly use StdArraysIO instead
     private static void copyChArray (char[] src, char[] dst) {
         if (src.length > dst.length) {
@@ -83,16 +93,6 @@ public class CharGenome extends Genome {
         for (int i = 0; i < src.length; i++) {
             dst[i] = src[i];
         }
-    }
-
-    private static boolean checkArray (char[] inputArray) {
-        for (int i = 0; i < inputArray.length; i++) {
-            if (!isNucleotide(inputArray[i])) {
-                StdOut.println("not nucleotide in checking array.");
-                return false;
-            }
-        }
-        return true;
     }
 
     private static char[] NUCLEOTID_VALUES = {'A', 'T', 'G', 'C'};
