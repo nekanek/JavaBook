@@ -5,6 +5,8 @@ public class Field {
     private final int size;
     private final char[][] ground;
     private final int field;
+    private final int turn;
+    
     
     private final int DEFAULT_SIZE = 3;
     
@@ -30,6 +32,9 @@ methods
 			for each symbol if ((currentSymb = X)&win); win = true; else break;
 		return win 
 	read user input
+   put char into field(char, coords,)
+   print field (turn x) ()- current
+   
 
 Inputs:
 	revert
@@ -43,3 +48,8 @@ algo
 			or put symbol into field
 				check for win
 			goto prompt
+
+AI
+    reading field making coordinates
+    field-his char
+    all possible variants or?
