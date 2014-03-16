@@ -1,22 +1,14 @@
 /*
 true compact genome, which uses bitwise operations on int to take 2 bits per nucleotide (instead of 8 for boolean in compact genome).
-*/
+Напомню - int занимает 32 бита. Каждые 2 бита в нём - это один из нуклеодидов. 
+Получается как будто массив двухбитовых переменных, который вмещает их 16 штук. 
+Потому у тебя будет двухступенчатая адресация - снаяала найти нужный инт в массиве интов, потом найти нужную пару битов у этого инта */
 
-// from stackoverflow
-// To toggle (invert) a bit
+01010101 & ~(1<<2) // turn bit off
+10000001 | 1 << 5 = 1010000 // turn bit on
+x & 1<<n Returns 1<<n if the n-th bit is set in x
 
-//     myByte ^= 1 << bit;
-    
 
-	
-
-// Use the bitwise or and and operators. To set a bit:
-
-// my_byte = my_byte | (1 << pos);
-
-// To un-set a bit:
-
-// my_byte = my_byte & ~(1 << pos);
 
 
 
