@@ -4,14 +4,9 @@ true compact genome, which uses bitwise operations on int to take 2 bits per nuc
 Получается как будто массив двухбитовых переменных, который вмещает их 16 штук. 
 Потому у тебя будет двухступенчатая адресация - снаяала найти нужный инт в массиве интов, потом найти нужную пару битов у этого инта */
 
-01010101 & ~(1<<2) // turn bit off
-10000001 | 1 << 5 = 1010000 // turn bit on
-x & 1<<n Returns 1<<n if the n-th bit is set in x
-
-
-
-
-
+//01010101 & ~(1<<2) // turn bit off
+//10000001 | 1 << 5 = 1010000 // turn bit on
+//x & 1<<n Returns 1<<n if the n-th bit is set in x
 
 package JavaBook.genome;
 import JavaBook.stanfStd.*;
@@ -24,21 +19,40 @@ public class CompactGenome extends Genome {
     }
 
     public CompactGenome(String _values) {
-        boolean [][] out = new boolean[_values.length()][2];
-        for (int i = 0; i < _values.length(); i++) {
-            out[i] = charToBool(_values.charAt(i));
+        int arrayLength = (int)(_values.length()/16) + 1;
+        int[] out = new int[arrayLength];
+        for (int i = 0; i < arrayLength - 1; i++) {
+            for (int j = 0; j < 31 ; j+= 2) {
+                out[i] = out[i] | (charToInt(_values.charAt(i*16 + j /2)) << j);
         }
-        this.values = out;
+        int lastIndex = _values.length()%16;
+        // int remainder = 2*(i-16*quotient) + 1
+        out[arrayLength - 1]   
+        out[i] = charToBool(_values.charAt(i));
+        }
+            this.values = out;
         this.endIndex = _values.length() - 1;
     }
 
     @Override
     public void addNucl (char nucleotide) {
         if (isNucleotide(nucleotide)) {
-            if (this.values.length-1 == this.endIndex) { 
+            if (this.values.length-1 == this.endIndex[0] || this.endIndex[1] == 31) { 
                 this.increaseLength();
+                
             }
-            this.values[++this.endIndex] = charToBool(nucleotide);
+            
+            if (this.endIndex[1] == 31) {
+                this.endIndex[0]++;
+                this.endIndex[1] = 1;
+            }
+            else {
+                this.endIndex[1] += 2;
+            }
+            
+            this.values[endIndex[0]] = this.values[endIndex[0]] | (charToInt(nucleotide) << (endIndex[1]-1));
+            //10000001 | 1 << 5 = 1010000 // turn bit on
+            //01010101 & ~(1<<2) // turn bit off
         }
         else {
             StdOut.println("Adding nucleotide failed cause it's not nucleotide char."); // exception?
@@ -47,85 +61,100 @@ public class CompactGenome extends Genome {
 
     @Override
     public char nucleotideAt (int i) {
-        return boolToChar(values[i]);
+        int quotient = (int)(i/16);
+        int remainder = 2*(i-16*quotient) + 1;
+        
+        return intToChar(values[quotient], remainder);            
     }
 
     @Override
     public String toString () {
         String out = "";
-        for (int i = 0; i <= this.endIndex; i++) {
-            out += boolToChar(this.values[i]);
-        }
+        for (int i = 0; i < this.endIndex[0]; i++) {
+            for (int j = 1; j <= 31; j+=2) {
+                out += intToChar(this.values[i], j);
+            }
+        }        
+        for (int j = 1; j <= this.endIndex[1]; j+=2) {
+                out += intToChar(this.values[this.endIndex[0]], j);
+        }                
         return out;
     }
 
     protected void increaseLength () {
-        boolean[][] increasedArray = new boolean[this.values.length*2][2];
-        copyBoolArray(this.values, increasedArray);
+        int[] increasedArray = new int[this.values.length*2];
+        copyIntArray(this.values, increasedArray);
         this.values = increasedArray;
     }
 
-    private char boolToChar (boolean[] Nucleotide) {
-        if (Nucleotide[0]) {
-            if (Nucleotide[1]) return 'G';
-            else return 'C';
+    // private char intToChar (int Nucleotides) {
+    //     intToChar(Nucleotides, 1);
+    // }
+
+
+    private char intToChar (int Nucleotides, int position) {
+        if (position % 2 != 0 || position < 0 || position > 31) {
+            System.out.println("Position was wrong, you should start at even position, from 0.");
+            return ' ';
         }
         else {
-            if (Nucleotide[1]) return 'T';
-            else return 'A';
+            if ((Nucleotide & (1 << position)) == (1 << position))  {
+                if ((Nucleotide & (1 << (position-1)) == (1 << (position-1)) 
+                        return 'T';
+                else return 'G';
+            }
+            else {
+                if ((Nucleotide & (1 << (position-1)) == (1 << (position-1)) 
+                        return 'C';
+                else return 'A';
+            }
         }
-        // StdOut.println("failed in oolToChar");
     }
     
-    private boolean[] charToBool (char Nucleotide) {
+    private int charToInt (char Nucleotide) {
         switch (Nucleotide) {
             case 'A' : {
-                boolean[] a = {false,false};
+                int a = 0b00;
                 return a;
             }
-            case 'T' : {
-                boolean[] t = {false, true};
-                return t;
+            case 'C' : {
+                int c = 0b01;
+                return c;
             }            
             case 'G' : {
-                boolean[] g = {true, true};
+                int g = 0b10;
                 return g;
             }            
-            case 'C' : {
-                boolean[] c = {true, false};
-                return c;
+            case 'T' : {
+                int t = 0b11;
+                return t;
             }
             default: {
-                boolean[] d = {false,false};
-                StdOut.println("failed in CharToBool");
+                int d = 0b00;
+                StdOut.println("failed in CharToInt");
                 return d;               
             }
         }
     }  
     
-    private static void copyBoolArray (boolean[][] src, boolean[][] dst) {
+    private static void copyIntArray (int[] src, int[] dst) {
         if (src.length > dst.length) {
             throw new RuntimeException("Not enough space in dst");
         }
         for (int i = 0; i < src.length; i++) {
-            for (int j = 0; j < 2; j++) {
-                dst[i][j] = src[i][j];
-            }
+                dst[i] = src[i];
         }        
     }
     
 //    private static char[] NUCLEOTID_VALUES = {'A', 'T', 'G', 'C'};
 //    
 //    private static boolean[][] NUCLEOTID_VALUES_BOOL = new boolean[][]{
-//    {false, false}, // A
-//    {false, true}, // T
-//    {true, true}, // G
-//    {true, false} }; // C
+
     
     private static String DEFAULT_VALUES = "";
     
-    private boolean[][] values;
-    private int endIndex;    
+    private int[] values;
+    private int[] endIndex;  // [0] stores array index of last int value, [1] stores position of last nucleotide in last integer  
     
     public static void main(String[] args) {
 
