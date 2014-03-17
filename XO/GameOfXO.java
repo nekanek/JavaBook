@@ -108,38 +108,7 @@ public class GameOfXO {
     
     }
     
-    public static void beginGame(Player player1, Player player2) {
-            
-            create links to players 
-        // initialize field
-        {
-        ask for size
-        size = input;
-        }
-            while !win
-        do {
-                print board
-                if CurrentTurn%2==0 {
-/*                     if (Player1.isInstanceOf(Player.RandomAI)) // redo all AI into subclass
-                    Player1.returnCoordinates();
-                    else
-                        String input = readInput (); */
-                }
-                else Player2.returnCoordinates();                
 
-                else {
-                    player.returnCoordinates 
-                        or revert and goto prompt
-                        or {
-                            set PutChar = x/o(whoseTurn)
-                            put symbol into field
-                        }
-                    write history coordinates[turn] = input1;
-                    turn ++;
-                }
-        }
-        endGame(boolean tie, char winnerChar)                           
-    }
 }
 
 
