@@ -11,48 +11,48 @@ true compact genome, which uses bitwise operations on int to take 2 bits per nuc
 package JavaBook.genome;
 import JavaBook.stanfStd.*;
 
-public class CompactGenome extends Genome {
+public class TrueCompactGenome extends Genome {
 
     // constructors:
-    public CompactGenome() {
+    public TrueCompactGenome() {
         this(DEFAULT_VALUES);
     }
 
-    public CompactGenome(String _values) {
+    public TrueCompactGenome(String _values) {
         int arrayLength = (int)(_values.length()/16) + 1;
         int[] out = new int[arrayLength];
         for (int i = 0; i < arrayLength - 1; i++) {
             for (int j = 0; j < 31 ; j+= 2) {
-                out[i] = out[i] | (charToInt(_values.charAt(i*16 + j /2)) << j);
+                out[i] = out[i] | (charToInt(_values.charAt(i*16 + j/2)) << j);
+            }
         }
-        int lastIndex = _values.length()%16;
-        // int remainder = 2*(i-16*quotient) + 1
-        out[arrayLength - 1]   
-        out[i] = charToBool(_values.charAt(i));
+        int lastIndex = 2*((_values.length()-1)%16);
+        for (int j = 0; j <= lastIndex; j+= 2) {
+            out[arrayLength - 1] = out[arrayLength - 1] | (charToInt(_values.charAt((arrayLength - 1)*16 + j/2)) << j);
         }
-            this.values = out;
-        this.endIndex = _values.length() - 1;
+        this.values = out;
+        int[] ends = {arrayLength - 1, lastIndex};
+        this.endIndex = ends;
+//        this.endIndex[0] = _values.length() - 1;
+//        this.endIndex[1] = lastIndex;
     }
 
     @Override
-    public void addNucl (char nucleotide) {
+    public void addNucl(char nucleotide) {
         if (isNucleotide(nucleotide)) {
-            if (this.values.length-1 == this.endIndex[0] || this.endIndex[1] == 31) { 
+            if (this.values.length-1 == this.endIndex[0] && this.endIndex[1] == 30) {
                 this.increaseLength();
-                
             }
             
-            if (this.endIndex[1] == 31) {
+            if (this.endIndex[1] == 30) {
                 this.endIndex[0]++;
-                this.endIndex[1] = 1;
+                this.endIndex[1] = 0;
             }
             else {
                 this.endIndex[1] += 2;
             }
             
-            this.values[endIndex[0]] = this.values[endIndex[0]] | (charToInt(nucleotide) << (endIndex[1]-1));
-            //10000001 | 1 << 5 = 1010000 // turn bit on
-            //01010101 & ~(1<<2) // turn bit off
+            this.values[endIndex[0]] = this.values[endIndex[0]] | (charToInt(nucleotide) << endIndex[1]);
         }
         else {
             StdOut.println("Adding nucleotide failed cause it's not nucleotide char."); // exception?
@@ -60,29 +60,29 @@ public class CompactGenome extends Genome {
     }
 
     @Override
-    public char nucleotideAt (int i) {
+    public char nucleotideAt(int i) {
         int quotient = (int)(i/16);
-        int remainder = 2*(i-16*quotient) + 1;
+        int remainder = 2*(i%16);
         
         return intToChar(values[quotient], remainder);            
     }
 
     @Override
-    public String toString () {
+    public String toString() {
         String out = "";
         for (int i = 0; i < this.endIndex[0]; i++) {
-            for (int j = 1; j <= 31; j+=2) {
+            for (int j = 0; j < 31; j+=2) {
                 out += intToChar(this.values[i], j);
             }
         }        
-        for (int j = 1; j <= this.endIndex[1]; j+=2) {
-                out += intToChar(this.values[this.endIndex[0]], j);
+        for (int j = 0; j <= this.endIndex[1]; j+=2) {
+                out += intToChar(this.values[this.endIndex[0]], j); // _values.length() - 1.
         }                
         return out;
     }
 
-    protected void increaseLength () {
-        int[] increasedArray = new int[this.values.length*2];
+    protected void increaseLength() {
+        int[] increasedArray = new int[this.values.length + 1];
         copyIntArray(this.values, increasedArray);
         this.values = increasedArray;
     }
@@ -92,26 +92,38 @@ public class CompactGenome extends Genome {
     // }
 
 
-    private char intToChar (int Nucleotides, int position) {
+    private char intToChar(int Nucleotide, int position) {
         if (position % 2 != 0 || position < 0 || position > 31) {
-            System.out.println("Position was wrong, you should start at even position, from 0.");
+            System.out.println("Position was wron_values.length() - 1g, you should start at 0, pass even position.");
             return ' ';
         }
         else {
             if ((Nucleotide & (1 << position)) == (1 << position))  {
-                if ((Nucleotide & (1 << (position-1)) == (1 << (position-1)) 
+                if ( (Nucleotide & (1 << position+1)) == (1 << position+1)) 
                         return 'T';
-                else return 'G';
+                else return 'C';
             }
             else {
-                if ((Nucleotide & (1 << (position-1)) == (1 << (position-1)) 
-                        return 'C';
+                if ( (Nucleotide & (1 << position+1)) == (1 << position+1)) 
+                        return 'G';
                 else return 'A';
             }
-        }
+        }        
+//        else {
+//            if ((Nucleotide & (1 << ++position)) == (1 << ++position))  {
+//                if ( (Nucleotide & (1 << position)) == (1 << position)) 
+//                        return 'T';
+//                else return 'G';
+//            }
+//            else {
+//                if ( (Nucleotide & (1 << position)) == (1 << position)) 
+//                        return 'C';
+//                else return 'A';
+//            }
+//        }
     }
     
-    private int charToInt (char Nucleotide) {
+    private int charToInt(char Nucleotide) {
         switch (Nucleotide) {
             case 'A' : {
                 int a = 0b00;
@@ -137,7 +149,7 @@ public class CompactGenome extends Genome {
         }
     }  
     
-    private static void copyIntArray (int[] src, int[] dst) {
+    private static void copyIntArray(int[] src, int[] dst) {
         if (src.length > dst.length) {
             throw new RuntimeException("Not enough space in dst");
         }
@@ -158,8 +170,8 @@ public class CompactGenome extends Genome {
     
     public static void main(String[] args) {
 
-        String input = "TGGACAGAACTT";
-        CompactGenome inputG = new CompactGenome(input);
+        String input = "TGGGTCACAGAACTTACGTGACTGATCGAAATCCCCTGGGAATGCGGAG";
+        TrueCompactGenome inputG = new TrueCompactGenome(input);
 
         StdOut.println("Inputed array: "+ inputG.toString());
         
