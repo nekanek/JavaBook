@@ -14,18 +14,15 @@ public class XO {
         myGame.turnsHistory[myGame.currentTurn][0] = currentCoords[0];
         myGame.turnsHistory[myGame.currentTurn][1] = currentCoords[1];
     }
-    
-    public static void main(String[] args) {
-        // create players
-        System.out.println("Welcome to the game of XO. \nPlease, choose game mode:\n1) Human vs Human\n2) Human vs AI\n(type number of the option and hit enter to continue..)");
-        // read Scanner input = new Scanner( System.in );
-        int input1 = 1;//Integer.parseInteger(input);        
-                //Human Player1 = new Human();
-                //Human Player2 = new Human();     
+    private static Player[] createPlayers (int input1)    {
+        Player[] myPlayers = new Player[2];
         switch (input1) {
+        
             case 1: {
-                Human Player1 = new Human();
-                Human Player2 = new Human();
+                //Human Player1 = new Human();
+                myPlayers[0] = new Human ();
+                myPlayers[1] = new RandomAI ();
+                //Human Player2 = new Human();
                 break;
             }    
             case 2: {
@@ -34,12 +31,16 @@ public class XO {
                 String input2 = "Y";//Integer.parseInteger(input);
                 
                 if (input2 == "Y") {
-                    Human Player1 = new Human();
-                    RandomAI Player2 = new RandomAI();
+                    //Human Player1 = new Human();
+                    //RandomAI Player2 = new RandomAI();
+                    myPlayers[0] = new Human ();
+                    myPlayers[1] = new RandomAI();
                 }
                 else if (input2 == "N") {
-                    RandomAI Player1 = new RandomAI();
-                    Human Player2 = new Human();
+                    //RandomAI Player1 = new RandomAI();
+                    //Human Player2 = new Human();
+                    myPlayers[1] = new Human ();
+                    myPlayers[0] = new RandomAI();                    
                 }
                 else {
                     System.out.println("Wrong input."); // redo input recursively
@@ -49,8 +50,31 @@ public class XO {
             default: {
                 System.out.println("Wrong input. Starting default Human VS Human game."); // redo input recursively
                 break;
-            }
+            }            
         }
+        return myPlayers;
+    }
+    
+    public static void main(String[] args) {
+        // create players
+        System.out.println("Welcome to the game of XO. \nPlease, choose game mode:\n1) Human vs Human\n2) Human vs AI\n(type number of the option and hit enter to continue..)");
+        // read Scanner input = new Scanner( System.in );
+        int input1 = 1;//Integer.parseInteger(input);        
+                // Human Player1 = new Human();
+                // Human Player2 = new Human(); 
+                Player[] myPlayers = createPlayers(input1); 
+                
+                Player Player1 =  myPlayers[0];
+                Player Player2 =  myPlayers[1];
+                System.out.println("Player 2 is AI: " + myPlayers[1].isAI);
+                boolean x = Player1 instanceof Human;
+                System.out.println("Player 1 is human: " + x);
+                boolean y = Player2 instanceof RandomAI;
+                System.out.println("Player 2 is AI: " + y);
+                //Player Player2 =  createPlayers(input1)[1];
+                System.out.println("Player 1 is AI: " + Player1.isAI);
+                System.out.println("Player 2 is AI: " + Player2.isAI);
+                // Human Player2 = new Human(); 
         // create game
         System.out.println("Please, enter size of the game you want to play. Enter 3 for 3x3 game field.");
         // read
