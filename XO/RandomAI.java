@@ -3,7 +3,11 @@ package JavaBook.XO;
 
 
 public class RandomAI extends Player {
-    public boolean isAI;
+    private final boolean isAI; 
+    
+    public boolean getIsAI() {
+        return isAI;
+    }
     
     public RandomAI() {
         this.isAI = true;
@@ -14,12 +18,12 @@ public class RandomAI extends Player {
         int[] result = new int[2];
         result[0] = (int) (Math.random()* board.length);
         result[1] = (int) (Math.random()* board.length);
-//            if (board[result[0]][result[1]].isNull) {
-//                return result;
-//            }
-//            else
-//                makeDecision (board);
-        return result;
+            if ( (board[result[0]][result[1]] != 'X') && (board[result[0]][result[1]] != 'O') ) {
+                return result;
+            }
+            else {
+                return returnCoordinates(board);
+            }
     }
     
     //private int[] makeDecision (char[][] board){
