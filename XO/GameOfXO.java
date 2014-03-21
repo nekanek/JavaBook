@@ -74,8 +74,9 @@ public class GameOfXO {
         int countRow = 0;
         int countColumn = 0;
         for (int i = 0; i < size; i++) { 
-            if (countRow == size-1 || countColumn == size-1)
+            if (countRow == size || countColumn == size) {
                 return true;
+            }
             countRow = 0;
             countColumn = 0;
             for(int j = 0; j < size; j++) {
@@ -94,7 +95,7 @@ public class GameOfXO {
                 if (this.board[size-1-i][i]==checkChar) 
                     countDiag2++;
         }
-        if (countDiag1 == size-1 || countDiag2 == size-1) 
+        if (countDiag1 == size || countDiag2 == size) 
             return true;
         return false;
     }
@@ -110,11 +111,16 @@ public class GameOfXO {
     
     public void revertLastTurn() {
         // int[] lastCoord = int[]
-        this.putChar(' ', turnsHistory[currentTurn-1]);
-        int[] newArray = new int[2];
-        turnsHistory[currentTurn-1] = newArray;
-        currentTurn--;
-       
+        if (currentTurn > 0) {
+            this.putChar(' ', turnsHistory[currentTurn-1]);
+            int[] newArray = new int[2];
+            turnsHistory[currentTurn-1] = newArray;
+            currentTurn--;
+            System.out.println("Last turn was reverted. Please, redo your move.");
+        }
+        else {
+            System.out.println("Game was just started there's no turn to cancel.");
+        }
     }
     
     //public static String readInput () {
