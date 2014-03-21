@@ -3,8 +3,15 @@ package JavaBook.XO;
 
 public abstract class Player {
 
+    private final boolean isAI = false; // = false;
+    
+    public boolean getIsAI() {
+        return isAI;
+    }    
     public abstract int[] returnCoordinates(char[][] board);
-    public boolean isAI;
+    
+    
+    // private static final boolean isAI = false;
 
 
     // private class CleverAI extends Player {
