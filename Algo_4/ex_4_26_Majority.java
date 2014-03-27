@@ -43,16 +43,26 @@ public class ex_4_26_Majority {
     }    
 
     public static String[] scanStringArray() {
-        Scanner sc = new Scanner(System.in); 
-        String[] input = new String[2];
-//        String input = "";
-//        if(sc.hasNext()) {
-//          input = sc.nextLine(); 
-//        } 
-//        else {
-//          System.out.println("Input was wrong. Please input again."); 
-//          return scanString();
-//        }
+        Scanner sc = new Scanner(System.in);
+        int n;
+        if(sc.hasNextInt()) {
+          n = sc.nextInt(); 
+        } 
+        else {
+          System.out.println("Please, enter length of array as first element (int).");
+          return scanStringArray();
+        }
+        
+        String[] input = new String[n];
+        for (int i = 0; i < n; i++) {
+            if(sc.hasNext()) {
+              input[i] = sc.nextLine(); 
+            } 
+            else {
+              System.out.println("Input was wrong. Please input again."); 
+              return scanStringArray();
+            }
+        }
         return input;
     } 
 }

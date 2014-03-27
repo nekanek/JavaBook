@@ -8,15 +8,15 @@ public class ex_4_22_MinDiff {
 
     public static void main(String[] args) {
         
-        double[] input = scanDoubleArray();
+        Double[] input = scanDoubleArray();
         if (input.length < 2) {
             System.out.println("Less than 2 values inputed, filed to find pair.");
         }
         else {
             Merge.sort(input);
-            double MinDiff = Double.MAX_VALUE;
-            double CurrentDiff;
-            double[] result = new double[2];
+            Double MinDiff = Double.MAX_VALUE;
+            Double CurrentDiff;
+            Double[] result = new Double[2];
             
             for(int i = 1; i < input.length; i++) {
                 CurrentDiff = Math.abs(input[i] - input[i-1]);
@@ -36,12 +36,12 @@ public class ex_4_22_MinDiff {
                 System.out.println("There are same values " + result[0] + " (minimum difference is 0.0).");
             }
             else {
-                System.out.println("Minimum difference of " + MinDiff + "is between values " + result[0] + " and " + result[1]);
+                System.out.println("Minimum difference of " + MinDiff + " is between values " + result[0] + " and " + result[1]);
             }    
         }
     }    
     
-    public static double[] scanDoubleArray() {
+    public static Double[] scanDoubleArray() {
         Scanner sc = new Scanner(System.in); 
         int n;
         if(sc.hasNextInt()) {
@@ -52,11 +52,11 @@ public class ex_4_22_MinDiff {
           return scanDoubleArray();
         }
         
-        double[] input = new double[n];
+        Double[] input = new Double[n];
         
         for (int i = 0; i < n; i++) {
             if(sc.hasNextDouble()) {
-              input[i] = sc.nextDouble(); 
+              input[i] = Double.valueOf(sc.nextDouble()); 
             } 
             else {
               System.out.println("Input was wrong. Please enter real numbers.");
