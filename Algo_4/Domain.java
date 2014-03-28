@@ -1,4 +1,3 @@
-
 package JavaBook.Algo_4;
 
 import java.util.Scanner;
