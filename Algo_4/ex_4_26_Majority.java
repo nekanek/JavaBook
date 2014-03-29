@@ -45,11 +45,11 @@ public class ex_4_26_Majority {
     public static String[] scanStringArray() {
         Scanner sc = new Scanner(System.in);
         int n;
+        System.out.println("Please, enter length of array as first element (int).");
         if(sc.hasNextInt()) {
           n = sc.nextInt(); 
         } 
         else {
-          System.out.println("Please, enter length of array as first element (int).");
           return scanStringArray();
         }
         
