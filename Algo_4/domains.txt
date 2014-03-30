@@ -1,0 +1,8 @@
+7 (specify number of domains to b sorted); this file should b in folder 1 lvl above JavaBook
+ex.myip.ru
+big.ex.myip.ru
+big.ex.myip.ru
+big1.ex.myip.ru
+big.ex.bang.ru
+big.ex.myip.com
+org
