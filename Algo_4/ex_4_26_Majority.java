@@ -47,7 +47,8 @@ public class ex_4_26_Majority {
         int n;
         System.out.println("Please, enter length of array as first element (int).");
         if(sc.hasNextInt()) {
-          n = sc.nextInt(); 
+          n = sc.nextInt();
+          sc.nextLine();
         } 
         else {
           return scanStringArray();

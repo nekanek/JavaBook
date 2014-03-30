@@ -45,7 +45,8 @@ public class ex_4_22_MinDiff {
         Scanner sc = new Scanner(System.in); 
         int n;
         if(sc.hasNextInt()) {
-          n = sc.nextInt(); 
+          n = sc.nextInt();
+          sc.nextLine();
         } 
         else {
           System.out.println("Please, enter length of array as first element (int).");
