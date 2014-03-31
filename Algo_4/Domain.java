@@ -29,7 +29,7 @@ public class Domain implements Comparable<Domain> {
                         domain2.domainName.length);
         int result;
         for (int i = 0; i < min; i++) {
-            if (!domainName[i].equals(domain2.domainName[i]))
+            if (!domainName[i].equalsIgnoreCase(domain2.domainName[i]))
                 return domainName[i].compareToIgnoreCase(domain2.domainName[i]);
         }
         if (this.domainName.length == domain2.domainName.length)
