@@ -1,0 +1,8 @@
+7 (specify number of domains to b sorted); 
+ex.myip.ru
+big.ex.myip.ru
+big.ex.myip.ru
+big1.ex.myip.ru
+big.ex.bang.ru
+big.ex.myip.com
+org
