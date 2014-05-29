@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Yandex2014_F {
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         
         String input = sc.nextLine();
@@ -14,9 +14,9 @@ public class Yandex2014_F {
  
         int i = 0;
         while (i < input.length()) {
-            if (isLeftBraket(input.substring(i, i+1))) {
+            if (isLeftBraket(input.charAt(i))) {
                 for (int j = i+1; j < input.length(); j++) {
-                    if (isLetter(input.substring(j, j+1))) {
+                    if (isLetter(input.charAt(j))) {
                         LettersCount += 1;
                         if (j == input.length() -1) {
                             output += input.substring(i, j+1);
@@ -24,7 +24,7 @@ public class Yandex2014_F {
                             break;
                         }
                     }
-                    else if (isRightBraket(input.substring(j, j+1)) && (LettersCount > 1)) {
+                    else if (isRightBraket(input.charAt(j)) && (LettersCount > 1)) {
                         output+= "<S>" + input.substring(i, j+1) + "</S>";
                         i = j+1;
                         break;
@@ -36,28 +36,28 @@ public class Yandex2014_F {
                     }
                     
                 }
-            }
+            }   
             
             
             
-            else if (isRightBraket(input.substring(i, i+1))) {
+            else if (isRightBraket(input.charAt(i))) {
                 if (i==0) {
-                    output += input.substring(i, i+1);
-                } 
-                else if ( (!isLetter(input.substring(i-1, i))) && (!isDigit(input.substring(i-1, i))) && (!isSpace(input.substring(i-1, i))) &&  (!isLeftBraket(input.substring(i-1, i))) &&  (!isRightBraket(input.substring(i-1, i))) ){
+                    output += input.charAt(i);
+                }
+                else if ( (!isLetter(input.charAt(i-1))) && (!isDigit(input.charAt(i-1))) && (!isSpace(input.charAt(i-1))) && (!isLeftBraket(input.charAt(i-1))) && (!isRightBraket(input.charAt(i-1))) ){
                     output = output.substring(0,output.length()-1);
-                    output += "<S>" + input.substring(i-1, i) +  input.substring(i, i+1) + "</S>";
+                    output += "<S>" + input.charAt(i-1) + input.charAt(i) + "</S>";
                 
                 }
                 else {
-                    output += input.substring(i, i+1);
+                    output += input.charAt(i);
                 }
                 i++;
             }
 
 
             else {
-                output += input.substring(i, i+1);
+                output += input.charAt(i);
                 i ++;
             }
             
@@ -68,32 +68,32 @@ public class Yandex2014_F {
         System.out.println(output);
     }
     
-    private static boolean isLetter (String c){
+    private static boolean isLetter (char c){
     
-        return Character.isLetter(c.charAt(0));
+        return Character.isLetter(c);
     
     }
 
-    public static boolean isDigit (String c){
+    public static boolean isDigit (char c){
     
-        return Character.isDigit(c.charAt(0));
-    
-    }
-    public static boolean isLeftBraket (String c){
-    
-        return (c.charAt(0)) == '(';
+        return Character.isDigit(c);
     
     }
-    public static boolean isRightBraket (String c){
+    public static boolean isLeftBraket (char c){
     
-        return (c.charAt(0)) == ')';
+        return c == '(';
     
     }
-    public static boolean isSpace (String c){
+    public static boolean isRightBraket (char c){
     
-        return (c.charAt(0)) == ' ';
+        return c == ')';
     
-    }    
+    }
+    public static boolean isSpace (char c){
+    
+        return c == ' ';
+    
+    }
 
     
 }
