@@ -13,18 +13,20 @@ public class Yandex2014_F {
         int LettersCount = 0;
  
         int i = 0;
+
+        if (input.length() == 1) {
+            output += input;
+        }
+        else {
+
         while (i < input.length()) {
             if (isLeftBraket(input.charAt(i))) {
-                for (int j = i+1; j < input.length(); j++) {
+                for (int j = i+1; j < input.length(); j++) {                 
                     if (isLetter(input.charAt(j))) {
                         LettersCount += 1;
-                        if (j == input.length() -1) {
-                            output += input.substring(i, j+1);
-                            i = j+1;
-                            break;
-                        }
+
                     }
-                    else if (isRightBraket(input.charAt(j)) && (LettersCount > 1)) {
+                    else if (isRightBraket(input.charAt(j)) && (LettersCount >= 1)) {
                         output+= "<S>" + input.substring(i, j+1) + "</S>";
                         i = j+1;
                         break;
@@ -65,6 +67,7 @@ public class Yandex2014_F {
    
         }
 
+        }
         System.out.println(output);
     }
     
