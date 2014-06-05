@@ -13,20 +13,20 @@ public class Checkfep {
    }
 
    // Check whether there's new chapter
-   public static String checkPart1(String html) {
-       int from     = html.indexOf("href=\"http://yuumei.deviantart.com/art/Fisheye-Placebo-Ch1-Part-1", 0); 
-       if (from==-1) { 
-	   return "No new chapter (1) yet. V_V ";
-       }
-       int to    = html.indexOf("\" title=\"", from); 
-       String url = html.substring(from + 6, to);
-       return "There is! Here is url: " + url;
-   }
+//   public static String checkPart1(String html) {
+//       int from     = html.indexOf("href=\"http://yuumei.deviantart.com/art/Fisheye-Placebo-Ch1-Part-1", 0); 
+//       if (from==-1) { 
+//	   return "No new chapter (1) yet. V_V ";
+//       }
+//       int to    = html.indexOf("\" title=\"", from); 
+//       String url = html.substring(from + 6, to);
+//       return "There is! Here is url: " + url;
+//   }
 
    public static String checkPart2(String html) {
-       int from     = html.indexOf("href=\"http://yuumei.deviantart.com/art/Fisheye-Placebo-Ch1-Part-2", 0); 
+       int from     = html.indexOf("href=\"http://yuumei.deviantart.com/art/Fisheye-Placebo-Ch1-Part-3", 0); 
        if (from==-1) { 
-	   return "No new chapter (2) yet. V_V ";
+	   return "No new chapter yet. V_V ";
        }
        int to    = html.indexOf("\" title=\"", from); 
        String url = html.substring(from + 6, to);
@@ -36,8 +36,9 @@ public class Checkfep {
    public static void main(String[] args) {
 
        String html = readHTML();
-       StdOut.println(checkPart1(html));
-       StdOut.println(checkPart2(html));
+       // StdOut.println(checkPart1(html));
+       
+       System.out.println(checkPart2(html));
    }
 
 }
