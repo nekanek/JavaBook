@@ -11,19 +11,19 @@ BT.1.    Implement the following methods for a binary tree that each take as arg
 
 package JavaBook.Algo_4.BTrees_4_4;
 
- 
+public class BTree<K extends Comparable & Iterable<K>, V> {
 
-public class BTree {
-
-    private Node root;        
+    private final Node root;        
     //private int size;             
 
     private class Node {
-        int value;
-        BTree left;
-        BTree right;
+        K key;
+        V value;
+        Node left;
+        Node right;
         
-        private Node(int in_value) {
+        private Node(K in_key, V in_value) {
+            this.key = in_key;
             this.value = in_value;
         }
     }
@@ -33,18 +33,18 @@ public class BTree {
         //size = 0;
     }
     
-    public BTree(int value) {
-        root = null;
+    public BTree(K in_key, V in_value) {
+        root = new Node(in_key, in_value);
         //size = 0;
     }
     
-    public int size(BTree rootA) {
+    public int size() {
         int size = 1;
-        if(rootA.root.left != null) {
-            size += size(rootA.root.left);
+        if(this.root.left != null) {
+            
         }
-        if(rootA.root.right != null) {
-            size += size(rootA.root.right);
+        if(this.root.right != null) {
+            
         }       
         return size;
     }
