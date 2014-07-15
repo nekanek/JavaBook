@@ -39,7 +39,7 @@ public class BTree<V> {
         return size(this.root);
     }
     
-    private int size(Node _root) {
+    private static int size(Node _root) {
         int size = 1;
         if(_root.left != null) {
             size += size(_root.left);
@@ -55,7 +55,7 @@ public class BTree<V> {
     }
     
     
-    private int leaves(Node _root) {
+    private static int leaves(Node _root) {
         int leaves = 0;
         if (_root.left == null && _root.right == null) {
             leaves++;
@@ -75,7 +75,7 @@ public class BTree<V> {
         return total(this.root);
     }    
     
-    private int total(Node _root) {
+    private static int total(Node _root) {
         int sum = _root.key;
         if(_root.left != null) {
             sum += total(_root.left);
@@ -85,4 +85,47 @@ public class BTree<V> {
         }       
         return sum;   
     }   
+
+    public int height() {
+        return height(this.root);
+    }
+    
+    
+    private static int height(Node _root) {
+        if (_root == null) {
+            return 0;
+        }
+        else {
+            int[] height = new int[10];
+            int[0] = 1;
+            int paths = 1; // number of different pathes in the tree
+            currentLeft = _root.left;
+            currentRight = _root.right;
+            while (currentLeft != null || currentRight!= null) {
+                if (paths > height.length -1) {
+                    // resize array 
+                    new int[];
+                    // copy
+                }
+                
+                if (currentLeft != null && currentRight != null) {
+                    paths ++;
+                    height[i]++;
+                    height[i+1] = height[i];
+                    currentLeft = this.left;
+                    currentRight = currentRight.right
+                }
+                else if (currentLeftt != null) {
+                }
+                else if (currentRight != null)
+            }
+        }
+        
+        // determine max
+        for {
+
+        }
+
+        return leaves;
+    }
 }    

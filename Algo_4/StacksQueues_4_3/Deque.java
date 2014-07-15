@@ -1,5 +1,6 @@
 /* 4.3.1. Deque A double-ended queue or deque (pronounced deck) is a combination of a stack and and a queue. It stores a parameterized collection of items and supports the following API: ... Write a data type Deque.java that implements the deque API using a singly linked list.
 
+
 */ 
 package JavaBook.Algo_4.StacksQueues_4_3;
 
