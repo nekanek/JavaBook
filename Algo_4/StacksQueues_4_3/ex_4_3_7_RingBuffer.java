@@ -28,9 +28,19 @@ public class ex_4_3_7_RingBuffer {
                 }
         }       
 
-        for (int i = 0; i < TESTS_NUMBER + 1; i++) {
+        for (int i = 0; i < TESTS_NUMBER + 3; i++) {
             System.out.println("..enqueing " + i);
             intsBuffer.enqueue(i);
+            if (i > 2) {
+                try { 
+                System.out.println("..dequeing " + intsBuffer.dequeue());
+                System.out.println("..dequeing " + intsBuffer.dequeue());
+                }
+                catch (Exception e) { 
+                    System.out.println("Failed to extract item, buffer is empty.");
+                    continue; 
+                }                
+            }
         }        
         
     } 

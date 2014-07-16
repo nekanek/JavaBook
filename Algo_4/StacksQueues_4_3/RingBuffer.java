@@ -21,7 +21,7 @@ public class RingBuffer {
     
     public RingBuffer(int size) {
         this.values = new int[size];
-        this.last = -1;
+        this.lastAdded = -1;
         this.firstToRead = -1;
     }
 
@@ -56,6 +56,9 @@ public class RingBuffer {
             System.out.println("Failed to add item, buffer is full.");
         }
         else {
+            if (this.isEmpty()) {
+                this.firstToRead = 0;
+            }
             if (lastAdded == values.length - 1) {
                 values[0] = item;
                 lastAdded = 0;    
