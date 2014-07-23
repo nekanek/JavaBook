@@ -11,6 +11,8 @@ BT.1.    Implement the following methods for a binary tree that each take as arg
 
 package JavaBook.Algo_4.BTrees_4_4;
 
+import java.util.Arrays;
+
 public class BTree<V> {
 
     private final Node root;                    
@@ -70,13 +72,12 @@ public class BTree<V> {
         return size(this.root);
     }
     private int size(Node _root) {
-        int size = 1;
-        if(_root.left != null) {
-            size += size(_root.left);
+        if (_root == null) {
+            return 0;
         }
-        if(_root.right != null) {
-            size += size(_root.right);
-        }       
+        int size = 1;
+        size += size(_root.left);
+        size += size(_root.right);
         return size;
     }
 
@@ -129,5 +130,30 @@ public class BTree<V> {
             globalMax = height(aNode.right, currentMax, globalMax);
             return globalMax;
         }
-    }   
+    }
+    
+    public static void main(String[] args) {
+        BTree<String> myTree = new BTree<>();
+        int tests = 50;
+        int[] testsVal = new int[tests];
+        for (int i = 0; i < tests; i++) {
+            testsVal[i] = i;
+        }
+        Arrays.sort(testsVal);
+        
+        for (int i = 0; i < tests; i++) {
+            myTree.put(testsVal[i], "String number "+i);
+        }
+        
+        System.out.println("Size of the tree = " + myTree.size());
+        System.out.println("Number of leaves in the tree: " + myTree.leaves());
+        System.out.println("Height of the tree = " + myTree.height());
+        System.out.println("SUm of the keys in the tree = " + myTree.total());
+        
+        Arrays.sort(testsVal);
+        for (int i = 0; i <= tests; i++) {
+            System.out.println("trying to get number "+ testsVal[i] + ":");
+            System.out.println(myTree.get(testsVal[i]));
+        }
+    }
 }    
