@@ -12,12 +12,13 @@ BT.1.    Implement the following methods for a binary tree that each take as arg
 package JavaBook.Algo_4.BTrees_4_4;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class BTree<V> {
 
-    private final Node root;                    
+    public Node root;                    
 
-    private class Node {
+    public class Node {
         int key;
         V value;
         Node left;
@@ -37,19 +38,20 @@ public class BTree<V> {
     }
 
     public void put(int key, V value) {
-        put(root, key, value);
+        root = put(root, key, value);
     }
-    private void put(Node aNode, int key, V value) {
+    private Node put(Node aNode, int key, V value) {
         if (aNode == null) {
             aNode = new Node(key, value);
         }
         else if (key < aNode.key) {
-            put(aNode.left, key, value);
+            aNode.left = put(aNode.left, key, value);
         }
         else if (key > aNode.key) {
-            put(aNode.right, key, value);
+            aNode.right = put(aNode.right, key, value);
         }
         else aNode.value = value;
+        return aNode;
     }        
     
     public V get(int key) {
@@ -134,26 +136,42 @@ public class BTree<V> {
     
     public static void main(String[] args) {
         BTree<String> myTree = new BTree<>();
-        int tests = 50;
+        int tests = 10;
         int[] testsVal = new int[tests];
         for (int i = 0; i < tests; i++) {
             testsVal[i] = i;
         }
-        Arrays.sort(testsVal);
+        shuffleArray (testsVal);
+        // myTree.put(1,"Some");
+        // System.out.println("Root: " + myTree.root.value);
         
         for (int i = 0; i < tests; i++) {
-            myTree.put(testsVal[i], "String number "+i);
+            myTree.put(testsVal[i], "String number "+ i + " (key " + testsVal[i] + ")");
+        }
+        
+
+        shuffleArray (testsVal);
+        for (int i = 0; i < tests; i++) {
+            // System.out.println("trying to get number "+ testsVal[i] + ":");
+            System.out.println("key " + testsVal[i] + ": " + myTree.get(testsVal[i]));        
         }
         
         System.out.println("Size of the tree = " + myTree.size());
-        System.out.println("Number of leaves in the tree: " + myTree.leaves());
+        System.out.println("Number of leaves in the tree = " + myTree.leaves());
         System.out.println("Height of the tree = " + myTree.height());
         System.out.println("SUm of the keys in the tree = " + myTree.total());
         
-        Arrays.sort(testsVal);
-        for (int i = 0; i <= tests; i++) {
-            System.out.println("trying to get number "+ testsVal[i] + ":");
-            System.out.println(myTree.get(testsVal[i]));
+
+        
+    }
+    
+    private static void shuffleArray(int[] a) {
+        Random random = new Random();
+        for (int i = a.length - 1; i > 0; i--) {
+            int index = random.nextInt(i + 1);
+            int temp = a[index];
+            a[index] = a[i];
+            a[i] = temp;
         }
     }
 }    
